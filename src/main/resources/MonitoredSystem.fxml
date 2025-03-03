@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Since: March 2025
+  ~ Author: gvenzl
+  ~ Name: MonitoredSystem.fxml
+  ~ Description: A Monitored System view.
+  ~
+  ~ Copyright 2025 Gerald Venzl
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedAreaChart?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="monSystemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.MonitoredSystem">
+       <Text layoutX="14.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System:" AnchorPane.leftAnchor="4.0" />
+       <Text fx:id="systemNameField" layoutX="52.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System name" AnchorPane.leftAnchor="52.0" />
+        <Text layoutX="170.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPUs:" AnchorPane.leftAnchor="170.0" />
+        <Text fx:id="systemCPUsField" layoutX="245.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cpus" AnchorPane.leftAnchor="210.0" />
+        <Text layoutX="340.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory (GBs):" AnchorPane.leftAnchor="300.0" />
+        <Text fx:id="systemMemoryField" layoutX="390.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory" AnchorPane.leftAnchor="390.0" />
+        <Text layoutX="4.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS:" AnchorPane.leftAnchor="4.0" />
+        <Text fx:id="osNameField" layoutX="118.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS name" AnchorPane.leftAnchor="30.0" />
+        <Text layoutX="340.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version:" AnchorPane.leftAnchor="300.0" />
+        <Text fx:id="osVersionField" layoutX="390.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS version" AnchorPane.leftAnchor="350.0" />
+        <Text layoutX="180.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Arch:" AnchorPane.leftAnchor="170.0" />
+        <Text fx:id="osArchField" layoutX="250.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS arch" AnchorPane.leftAnchor="210.0" />
+        <Text layoutX="14.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Run queue:" AnchorPane.leftAnchor="4.0" />
+         <StackPane layoutX="83.0" layoutY="60.0" AnchorPane.leftAnchor="72.0">
+           <Rectangle id="run-queue" fx:id="runQueueRunnableBar" arcHeight="5.0" arcWidth="5.0" height="15.0" layoutX="83.0" layoutY="60.0" strokeType="INSIDE" width="150.0" />
+           <Text fx:id="runQueueRunnableValueField">
+            <font>
+              <Font size="8.0" />
+            </font>
+           </Text>
+         </StackPane>
+         <StackPane layoutX="83.0" layoutY="82.0" AnchorPane.leftAnchor="72.0">
+             <Rectangle id="block-queue" fx:id="runQueueBlockedBar" arcHeight="5.0" arcWidth="5.0" height="15.0" strokeType="INSIDE" width="150.0" />
+             <Text fx:id="runQueueBlockedValueField">
+               <font>
+                <Font size="8.0" />
+               </font>
+             </Text>
+        </StackPane>
+   <Text layoutX="250.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Swap MB/s:" AnchorPane.leftAnchor="250.0" />
+   <StackPane layoutX="326.0" layoutY="60.0" AnchorPane.leftAnchor="326.0">
+         <Rectangle id="run-queue" fx:id="swapToDiskBar" arcHeight="5.0" arcWidth="5.0" height="15.0" layoutX="83.0" layoutY="60.0" strokeType="INSIDE" width="150.0" />
+         <Text fx:id="swapToDiskField">
+            <font>
+               <Font size="8.0" />
+            </font>
+         </Text>
+   </StackPane>
+   <StackPane layoutX="326.0" layoutY="82.0" AnchorPane.leftAnchor="326.0">
+         <Rectangle id="block-queue" fx:id="swapFromDiskBar" arcHeight="5.0" arcWidth="5.0" height="15.0" strokeType="INSIDE" width="150.0" />
+         <Text fx:id="swapFromDiskField">
+            <font>
+               <Font size="8.0" />
+            </font>
+         </Text>
+   </StackPane>
+     <StackedAreaChart id="cpu-chart" fx:id="cpuChart" layoutY="109.0" legendSide="LEFT" prefHeight="100.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="100.0">
+      <xAxis>
+          <CategoryAxis gapStartAndEnd="false" side="BOTTOM" tickLabelGap="0.0" />
+      </xAxis>
+      <yAxis>
+        <NumberAxis label="CPU %" side="LEFT" tickLabelGap="1.0" />
+      </yAxis>
+    </StackedAreaChart>
+     <StackedAreaChart id="memory-chart" fx:id="memoryChart" layoutY="292.0" legendSide="LEFT" prefHeight="100.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="240.0">
+        <xAxis>
+           <CategoryAxis gapStartAndEnd="false" side="BOTTOM" tickLabelGap="0.0" />
+        </xAxis>
+        <yAxis>
+           <NumberAxis label="Memory %" side="LEFT" tickLabelGap="1.0" />
+        </yAxis>
+     </StackedAreaChart>
+   <StackedAreaChart id="memory-chart" fx:id="diskChart" layoutY="400.0" legendSide="LEFT" prefHeight="100.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="380.0">
+      <xAxis>
+         <CategoryAxis gapStartAndEnd="false" side="BOTTOM" tickLabelGap="0.0" />
+      </xAxis>
+      <yAxis>
+         <NumberAxis label="Disk MB/s" side="LEFT" tickLabelGap="1.0" upperBound="0.0" />
+      </yAxis>
+   </StackedAreaChart>
+</AnchorPane>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Since: March 2025
+  ~ Author: gvenzl
+  ~ Name: Record.fxml
+  ~ Description: The "Record" dialog.
+  ~
+  ~ Copyright 2025 Gerald Venzl
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="219.0" prefWidth="369.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.Record">
+   <Label layoutX="48.0" layoutY="43.0" text="Path:" AnchorPane.leftAnchor="48.0" />
+   <TextField fx:id="path" layoutX="136.0" layoutY="39.0" prefHeight="26.0" prefWidth="160.0" />
+   <Button layoutX="307.0" layoutY="39.0" mnemonicParsing="false" onAction="#openDirectoryChooser" prefHeight="26.0" prefWidth="26.0" text="..." />
+   <Label layoutX="48.0" layoutY="85.0" text="File prefix:" AnchorPane.leftAnchor="48.0" />
+   <TextField fx:id="prefix" layoutX="136.0" layoutY="81.0" />
+   <Button defaultButton="true" layoutX="74.0" layoutY="146.0" mnemonicParsing="false" onAction="#validateRecordAndClose" prefHeight="33.0" prefWidth="62.0" text="Record" />
+   <Button layoutX="244.0" layoutY="146.0" mnemonicParsing="false" onAction="#cancelDialog" prefHeight="33.0" prefWidth="62.0" text="Cancel" />
+</AnchorPane>

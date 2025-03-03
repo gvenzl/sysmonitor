@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Since: March 2025
+  ~ Author: gvenzl
+  ~ Name: NewSystem.fxml
+  ~ Description: The "Add New System" dialog.
+  ~
+  ~ Copyright 2025 Gerald Venzl
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="340.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.NewSystem">
+   <Label layoutX="48.0" layoutY="47.0" text="Name:" AnchorPane.leftAnchor="48.0" />
+   <TextField fx:id="name" layoutX="136.0" layoutY="43.0" />
+   <Label layoutX="48.0" layoutY="79.0" text="Host name:" AnchorPane.leftAnchor="48.0" />
+   <TextField fx:id="hostName" layoutX="136.0" layoutY="75.0" />
+   <Label layoutX="48.0" layoutY="113.0" text="Port:" AnchorPane.leftAnchor="48.0" />
+   <TextField fx:id="port" layoutX="136.0" layoutY="109.0" prefHeight="26.0" prefWidth="62.0" text="22" />
+   <Label layoutX="48.0" layoutY="147.0" text="Username:" AnchorPane.leftAnchor="48.0" />
+   <TextField fx:id="userName" layoutX="136.0" layoutY="143.0" prefHeight="26.0" prefWidth="203.0" />
+   <Label layoutX="48.0" layoutY="184.0" text="Password:" AnchorPane.leftAnchor="48.0" />
+   <PasswordField fx:id="password" layoutX="136.0" layoutY="180.0" prefHeight="26.0" prefWidth="203.0" />
+   <Label layoutX="48.0" layoutY="222.0" text="SSH Key:" AnchorPane.leftAnchor="48.0" />
+   <TextField fx:id="sshKeyPath" layoutX="136.0" layoutY="218.0" prefHeight="26.0" prefWidth="203.0" />
+   <Button layoutX="350.0" layoutY="218.0" mnemonicParsing="false" onAction="#openFileChooser" text="..." />
+   <Button layoutX="104.0" layoutY="276.0" mnemonicParsing="false" onAction="#validateSaveAndClose" prefHeight="33.0" prefWidth="62.0" text="OK" defaultButton="true" />
+   <Button layoutX="306.0" layoutY="276.0" mnemonicParsing="false" onAction="#cancelDialog" prefHeight="33.0" prefWidth="62.0" text="Cancel" />
+</AnchorPane>

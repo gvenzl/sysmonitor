@@ -1,0 +1,56 @@
+#monSystemPane {
+  -fx-border-color: black; -fx-border-width: 1px 1px 1px 1px;
+}
+
+/* Runnable queue color --> green */
+#run-queue {
+ /* -fx-fill: #1fff79; */
+ -fx-fill: rgb(31, 255, 121, 0.7);
+ -fx-stroke: black;
+}
+
+/* Blocked queue color --> red */
+#block-queue {
+  /*-fx-fill: #ff2121;*/
+  -fx-fill: rgba(255, 0, 0, 0.7);
+  -fx-stroke: black;
+}
+
+/* CPU chart series symbols (need to match with the series at which position they have been added to the chart in the code). */
+#cpu-chart .series0.chart-area-symbol { -fx-background-color: rgba(255, 165, 0, 0.7), white; }
+#steal-cpu-series  .chart-series-area-fill { -fx-fill: rgba(255, 165, 0, 0.7); }
+#steal-cpu-series  .chart-series-area-line { -fx-stroke: rgba(255, 165, 0, 0.7); }
+
+#cpu-chart .series1.chart-area-symbol { -fx-background-color: rgba(0, 0, 255, 0.7), white; }
+#wait-cpu-series   .chart-series-area-fill { -fx-fill: rgba(0, 0, 255, 0.7); }
+#wait-cpu-series   .chart-series-area-line { -fx-stroke: rgba(0, 0, 255, 0.7); }
+
+#cpu-chart .series2.chart-area-symbol { -fx-background-color: rgba(255, 0, 0, 0.7), white; }
+#system-cpu-series .chart-series-area-fill { -fx-fill: rgba(255, 0, 0, 0.7); }
+#system-cpu-series .chart-series-area-line { -fx-stroke: rgba(255, 0, 0, 0.7); }
+
+#cpu-chart .series3.chart-area-symbol { -fx-background-color: rgb(31, 255, 121, 0.7), white; }
+#user-cpu-series .chart-series-area-fill { -fx-fill: rgb(31, 255, 121, 0.7); }
+#user-cpu-series .chart-series-area-line { -fx-stroke: rgb(31, 255, 121, 0.7); }
+
+/* Memory chart series symbols (need to match with the series at which position they have been added to the chart in the code). */
+#memory-chart .series0.chart-area-symbol { -fx-background-color: rgba(255, 0, 0, 0.7), white; }
+#buffer-memory-series .chart-series-area-fill { -fx-fill: rgba(255, 0, 0, 0.7); }
+#buffer-memory-series .chart-series-area-line { -fx-stroke: rgba(255, 0, 0, 0.7); }
+
+#memory-chart .series1.chart-area-symbol { -fx-background-color: rgba(0, 0, 255, 0.7), white; }
+#cache-memory-series .chart-series-area-fill { -fx-fill: rgba(0, 0, 255, 0.7); }
+#cache-memory-series .chart-series-area-line { -fx-stroke: rgba(0, 0, 255, 0.7); }
+
+#memory-chart .series2.chart-area-symbol { -fx-background-color: rgb(31, 255, 121, 0.7), white; }
+#used-memory-series .chart-series-area-fill { -fx-fill: rgb(31, 255, 121, 0.7); }
+#used-memory-series .chart-series-area-line { -fx-stroke: rgb(31, 255, 121, 0.7); }
+
+/* Memory chart series symbols (need to match with the series at which position they have been added to the chart in the code). */
+#disk-chart .series0.chart-area-symbol { -fx-background-color: rgba(255, 0, 0, 0.7), white; }
+#disk-read-series .chart-series-area-fill { -fx-fill: rgba(255, 0, 0, 0.7); }
+#disk-read-series .chart-series-area-line { -fx-stroke: rgba(255, 0, 0, 0.7); }
+
+#disk-chart .series1.chart-area-symbol { -fx-background-color: rgba(0, 0, 255, 0.7), white; }
+#disk-write-series .chart-series-area-fill { -fx-fill: rgba(0, 0, 255, 0.7); }
+#disk-write-series .chart-series-area-line { -fx-stroke: rgba(0, 0, 255, 0.7); }
