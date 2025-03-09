@@ -22,6 +22,7 @@
 package com.gvenzl.system.ui;
 
 import com.gvenzl.config.Config;
+import com.gvenzl.log.SysLogger;
 import com.gvenzl.system.Systems;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,8 +31,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TextField;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -43,6 +47,7 @@ public class Preferences {
     public Spinner<Integer> reconnectRetries;
     @FXML
     public Spinner<Integer> dataPoints;
+    public TextField logFilePath;
 
     @FXML
     public void initialize() {
@@ -51,9 +56,27 @@ public class Preferences {
             refreshCycle.getValueFactory().setValue(config.getRefreshCycle());
             reconnectRetries.getValueFactory().setValue(config.getReconnectRetries());
             dataPoints.getValueFactory().setValue(config.getDataPoints());
+            logFilePath.setText(Config.getInstance().getLogFilePath());
         }
         catch (IOException e) {
             new Alert(Alert.AlertType.ERROR, "Cannot read configuration due to: %s".formatted(e.getMessage()), ButtonType.OK).show();
+        }
+    }
+
+    @FXML
+    public void openFileChooser(ActionEvent actionEvent) {
+
+        DirectoryChooser directoryChooserChooser = new DirectoryChooser();
+        directoryChooserChooser.setTitle("Log File");
+        Node node = (Node) actionEvent.getSource();
+        File selectedFile = directoryChooserChooser.showDialog(node.getScene().getWindow());
+
+        if (selectedFile != null) {
+            try {
+                logFilePath.setText(selectedFile.getCanonicalPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -68,6 +91,8 @@ public class Preferences {
             if (validateInput()) {
                 storeConfig(config);
 
+                // Set new log path
+                SysLogger.getInstance().setLogFilePath(logFilePath.getText());
                 // Tell threads to reset their settings
                 try {
                     updateSystems();
@@ -103,6 +128,11 @@ public class Preferences {
             return false;
         }
 
+        if (null == logFilePath.getText() || logFilePath.getText().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Log File cannot be empty.", ButtonType.OK).show();
+            return false;
+        }
+
         return true;
     }
 
@@ -110,6 +140,7 @@ public class Preferences {
         config.setRefreshCycle(refreshCycle.getValue());
         config.setReconnectRetries(reconnectRetries.getValue());
         config.setDataPoints(dataPoints.getValue());
+        config.setLogFilePath(logFilePath.getText());
     }
 
     private void updateSystems() throws IOException {

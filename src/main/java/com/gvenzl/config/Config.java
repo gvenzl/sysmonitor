@@ -60,11 +60,13 @@ public class Config {
     private static final String PORT = "port";
     private static final String PASSWORD = "password";
     private static final String PRIVATE_KEY = "privateKey";
+    private static final String LOG_FILE_PATH = "logfile";
 
     private final TreeMap<String, Connection> systems = new TreeMap<>();
     private int refreshCycle = 1;
     private int reconnectRetries = 3;
     private int dataPoints = 30;
+    private String logFilePath = CONFIG_DIR;
 
     private static Config instance = null;
 
@@ -105,6 +107,14 @@ public class Config {
         this.dataPoints = points;
     }
 
+    public void setLogFilePath(String path) {
+        logFilePath = path;
+    }
+
+    public String getLogFilePath() {
+        return logFilePath;
+    }
+
     private void readConfig() throws IOException {
 
         // File is not empty/new
@@ -122,6 +132,7 @@ public class Config {
                 refreshCycle = Integer.parseInt(prefs.getAttribute(REFRESH));
                 reconnectRetries = Integer.parseInt(prefs.getAttribute(RECONNECT));
                 dataPoints = Integer.parseInt(prefs.getAttribute(DATA_POINTS));
+                logFilePath = prefs.getAttribute(LOG_FILE_PATH);
 
                 // Systems tag
                 Element systemsRoot = (Element) doc.getElementsByTagName(SYSTEMS_ROOT).item(0);
@@ -182,6 +193,7 @@ public class Config {
         preferences.setAttribute(REFRESH, String.valueOf(refreshCycle));
         preferences.setAttribute(RECONNECT, String.valueOf(reconnectRetries));
         preferences.setAttribute(DATA_POINTS, String.valueOf(dataPoints));
+        preferences.setAttribute(LOG_FILE_PATH, logFilePath);
         root.appendChild(preferences);
 
         Element systemRoot = doc.createElement(SYSTEMS_ROOT);

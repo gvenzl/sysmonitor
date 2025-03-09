@@ -21,6 +21,8 @@
 
 package com.gvenzl.system;
 
+import com.gvenzl.log.SysLogger;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -247,9 +249,9 @@ public class DataPoint {
         try {
             dateTime = dateFormatter.parse(date);
         } catch (ParseException | NumberFormatException e) {
-            System.out.println("Cannot parse string: '%s'".formatted(date));
-            System.out.println("Date format used: %s".formatted(dateFormatter.getDateFormatSymbols().getLocalPatternChars()));
-            System.out.println(e.getMessage());
+            SysLogger.getInstance().error("Cannot parse string: '%s'".formatted(date));
+            SysLogger.getInstance().error("Date format used: %s".formatted(dateFormatter.getDateFormatSymbols().getLocalPatternChars()));
+            SysLogger.getInstance().error(e.getMessage());
             dateTime = new Date();
         }
     }
