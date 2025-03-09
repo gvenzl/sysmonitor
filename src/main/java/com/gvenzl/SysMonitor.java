@@ -30,13 +30,15 @@ import com.gvenzl.system.ui.NewSystem;
 import com.gvenzl.system.ui.Record;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -165,11 +167,11 @@ public class SysMonitor extends Application {
         }
     }
 
-    public void quitApp(ActionEvent actionEvent) {
+    public void quitApp() {
         Platform.exit();
     }
 
-    public void openAbout(ActionEvent actionEvent) {
+    public void openAbout() {
         Alert aboutDialog = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
         aboutDialog.setTitle("SysMonitor");
         aboutDialog.setHeaderText("About");
@@ -178,7 +180,7 @@ public class SysMonitor extends Application {
     }
 
     @FXML
-    public void openPreferencesWindow(ActionEvent event) {
+    public void openPreferencesWindow() {
         try {
             Stage newWindow = new Stage();
             newWindow.setTitle("Preferences");
@@ -192,7 +194,7 @@ public class SysMonitor extends Application {
         }
     }
 
-    public void record(ActionEvent actionEvent) {
+    public void record() {
         try {
             for (Map.Entry<String, MonitoredSystem> system : Systems.getInstance().getSystems().entrySet()) {
                 system.getValue().startRecording();
@@ -204,7 +206,7 @@ public class SysMonitor extends Application {
         }
     }
 
-    public void recordWithPrefix(ActionEvent actionEvent) {
+    public void recordWithPrefix() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Record.fxml"));
             Parent root = loader.load();
@@ -235,7 +237,7 @@ public class SysMonitor extends Application {
         }
     }
 
-    public void stopRecord(ActionEvent actionEvent) {
+    public void stopRecord() {
 
         try {
             for (Map.Entry<String, MonitoredSystem> system : Systems.getInstance().getSystems().entrySet()) {
