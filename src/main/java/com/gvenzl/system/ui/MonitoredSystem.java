@@ -235,12 +235,14 @@ public class MonitoredSystem extends Thread {
                             // Will trigger another IO exception, if something is wrong completely wrong, breaking the loop
                             line = reader.readLine();
                         }
+
                         updateCharts(line);
+
                         try {
-                            logLine(line);
+                            recordLine(line);
                         }
                         catch (IOException e) {
-                            SysLogger.getInstance().error("Cannot log line due to: %s".formatted(e.getMessage()));
+                            SysLogger.getInstance().error("Cannot record line due to: %s".formatted(e.getMessage()));
                         }
                     }
                     SysLogger.getInstance().log("Stop request, stopping thread.");
@@ -271,6 +273,16 @@ public class MonitoredSystem extends Thread {
      */
     public void terminate() {
         run = false;
+        if (null != recordFileWriter) {
+            try {
+                recordFileWriter.flush();
+                recordFileWriter.close();
+            }
+            catch (IOException e) {
+                // Ignore exceptions, we are terminating
+            }
+            recordFileWriter = null;
+        }
     }
 
     /**
@@ -436,23 +448,24 @@ public class MonitoredSystem extends Thread {
         return dp;
     }
 
-    public void startRecording() throws IOException{
+    public void startRecording() throws IOException {
         startRecording(System.getProperty("user.home"), "");
     }
 
-    public void startRecording(String path, String prefix) throws IOException{
+    public void startRecording(String path, String prefix) throws IOException {
 
-        String fileName = conn.getHostName() + ".log";
+        String fileName = conn.getName() + ".log";
 
         String fullFilePath = path + File.separator;
         if (prefix.trim().isEmpty()) {
             fullFilePath = fullFilePath + fileName;
         }
         else {
-            fullFilePath = fullFilePath + prefix + "_" + fileName;
+            fullFilePath = fullFilePath + prefix + fileName;
         }
 
-        recordFileWriter = new BufferedWriter(new FileWriter(fullFilePath));
+        // Triggers recording once not null
+        recordFileWriter = new BufferedWriter(new FileWriter(fullFilePath, true));
     }
 
     public void stopRecording() throws IOException {
@@ -460,7 +473,7 @@ public class MonitoredSystem extends Thread {
         recordFileWriter = null;
     }
 
-    private void logLine(String line) throws IOException {
+    private void recordLine(String line) throws IOException {
         if (null != recordFileWriter) {
             recordFileWriter.write(line);
             recordFileWriter.write("\n");

@@ -21,14 +21,19 @@
 
 package com.gvenzl.system.ui;
 
+import com.gvenzl.system.Systems;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 public class Record {
 
@@ -57,6 +62,9 @@ public class Record {
 
     @FXML
     public void cancelDialog(ActionEvent actionEvent) {
+        Node cancelButton = (Node) actionEvent.getSource();
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
         abort = true;
     }
 
@@ -64,6 +72,27 @@ public class Record {
         return abort;
     }
 
-    public void validateRecordAndClose(ActionEvent actionEvent) {
+    public boolean validateRecordAndClose(ActionEvent actionEvent) {
+
+        if (!new File(path.getText()).isDirectory()) {
+            new Alert(Alert.AlertType.ERROR, String.format("Directory '%s' is not a directory", path.getText()), ButtonType.OK).show();
+            return false;
+        }
+
+        for (Map.Entry<String, MonitoredSystem> entry : Systems.getInstance().getSystems().entrySet()) {
+            try {
+                entry.getValue().startRecording(path.getText(), prefix.getText());
+            }
+            catch (IOException e) {
+                new Alert(Alert.AlertType.ERROR, String.format("Cannot start recording: %s", e.getMessage()), ButtonType.OK).show();
+                return false;
+            }
+        }
+
+        Node okButton = (Node) actionEvent.getSource();
+        Stage stage = (Stage) okButton.getScene().getWindow();
+        stage.close();
+
+        return true;
     }
 }

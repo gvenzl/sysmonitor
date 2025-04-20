@@ -202,7 +202,7 @@ public class SysMonitor extends Application {
             stopRecordMenu.setDisable(false);
         }
         catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR, "Cannot start recording due to: %s".formatted(e.getMessage()), ButtonType.OK);
+            new Alert(Alert.AlertType.ERROR, "Cannot start recording due to: %s".formatted(e.getMessage()), ButtonType.OK).show();
         }
     }
 
@@ -226,7 +226,7 @@ public class SysMonitor extends Application {
                     stopRecordMenu.setDisable(false);
                 }
                 catch (IOException e) {
-                    new Alert(Alert.AlertType.ERROR, "Cannot start recording due to: %s".formatted(e.getMessage()), ButtonType.OK);
+                    new Alert(Alert.AlertType.ERROR, "Cannot start recording due to: %s".formatted(e.getMessage()), ButtonType.OK).show();
                 }
             }
         }
@@ -246,7 +246,7 @@ public class SysMonitor extends Application {
             stopRecordMenu.setDisable(true);
         }
         catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR, "Cannot stop recording due to: %s".formatted(e.getMessage()), ButtonType.OK);
+            new Alert(Alert.AlertType.ERROR, "Cannot stop recording due to: %s".formatted(e.getMessage()), ButtonType.OK).show();
         }
     }
 }
