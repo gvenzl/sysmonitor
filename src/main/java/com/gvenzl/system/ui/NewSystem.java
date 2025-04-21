@@ -186,7 +186,7 @@ public class NewSystem {
 
         // Try to connect to the system
         try {
-            conn.connect();
+            conn.connect(5000);
             conn.close();
         }
         catch (UnknownHostException e) {

@@ -31,7 +31,6 @@
         <MenuBar prefHeight="28.0" prefWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <Menu mnemonicParsing="false" text="System">
             <MenuItem id="newSystem" mnemonicParsing="false" onAction="#addSystemWindow" text="New" />
-            <Menu fx:id="removeSystemMenu" mnemonicParsing="false" text="Remove system" />
             <MenuItem id="preferences" mnemonicParsing="false" onAction="#openPreferencesWindow" text="Preferences..." />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem id="quit" mnemonicParsing="false" onAction="#quitApp" text="Quit" />
@@ -40,7 +39,7 @@
             <MenuItem id="record" mnemonicParsing="false" onAction="#record" text="Record" />
             <MenuItem id="recordAs" mnemonicParsing="false" onAction="#recordWithPrefix" text="Record As..." />
          <SeparatorMenuItem mnemonicParsing="false" />
-         <MenuItem fx:id="stopRecordMenu" mnemonicParsing="false" disable="true" onAction="#stopRecord" text="Stop" />
+         <MenuItem fx:id="stopRecordMenu" disable="true" mnemonicParsing="false" onAction="#stopRecord" text="Stop" />
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <MenuItem id="about" mnemonicParsing="false" onAction="#openAbout" text="About" />

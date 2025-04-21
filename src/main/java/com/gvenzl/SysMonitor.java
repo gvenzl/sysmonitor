@@ -37,7 +37,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -52,10 +51,9 @@ import java.util.Objects;
 public class SysMonitor extends Application {
 
     private static final String VERSION = "1.0.0";
-    private static final double MONITORED_SYSTEM_HEIGHT = 530;
-    public Menu removeSystemMenu;
+    public static final double MONITORED_SYSTEM_HEIGHT = 530;
+    @FXML
     public MenuItem stopRecordMenu;
-
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -106,6 +104,7 @@ public class SysMonitor extends Application {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(
                                     getClass().getClassLoader().getResource("MonitoredSystem.fxml")));
         Node monitoredSystem = loader.load();
+        monitoredSystem.setId(conn.getName());
         MonitoredSystem monitoredSystemController = loader.getController();
         monitoredSystemController.setConnection(conn);
         monitoredSystemController.start();
@@ -118,7 +117,6 @@ public class SysMonitor extends Application {
         AnchorPane.setLeftAnchor(monitoredSystem, 0.0);
         AnchorPane.setRightAnchor(monitoredSystem, 0.0);
         mainPane.getChildren().add(monitoredSystem);
-
     }
 
     @FXML

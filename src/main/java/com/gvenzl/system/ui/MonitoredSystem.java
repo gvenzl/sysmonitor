@@ -21,18 +21,26 @@
 
 package com.gvenzl.system.ui;
 
+import com.gvenzl.SysMonitor;
 import com.gvenzl.config.Config;
 import com.gvenzl.connect.Connection;
 import com.gvenzl.log.SysLogger;
 import com.gvenzl.system.DataPoint;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.chart.StackedAreaChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
@@ -50,6 +58,7 @@ public class MonitoredSystem extends Thread {
     private int maxRetries = 0;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     private Pattern pattern;
+    private String name;
 
     @FXML
     public AnchorPane monSystemPane;
@@ -169,6 +178,7 @@ public class MonitoredSystem extends Thread {
 
     public void setConnection(Connection conn) {
         this.conn = conn;
+        name = conn.getName();
     }
 
     @Override
@@ -478,5 +488,33 @@ public class MonitoredSystem extends Thread {
             recordFileWriter.write(line);
             recordFileWriter.write("\n");
         }
+    }
+
+    public void removeSystem(ActionEvent actionEvent) {
+
+        // Remove system from the configuration
+        try {
+            Config.getInstance().removeSystem(name);
+            Config.getInstance().store();
+        }
+        catch (IOException | ParserConfigurationException | TransformerException e) {
+            new Alert(Alert.AlertType.ERROR, String.format("Cannot remove system from configuration: %s", e.getMessage()), ButtonType.OK).show();
+            return;
+        }
+
+        // Remove system from the window
+        AnchorPane mainPane = (AnchorPane) Stage.getWindows().getFirst().getScene().lookup("#mainPane");
+        Node monitoredSystem = Stage.getWindows().getFirst().getScene().lookup("#"+ name);
+        mainPane.getChildren().remove(monitoredSystem);
+
+        // Redraw the windows
+        int nodeIdx = 0;
+        for (Node node : mainPane.getChildren()) {
+            AnchorPane.setTopAnchor(node, nodeIdx * SysMonitor.MONITORED_SYSTEM_HEIGHT);
+            nodeIdx++;
+        }
+
+        // Terminate yourself (close the connection, etc.)
+        this.terminate();
     }
 }

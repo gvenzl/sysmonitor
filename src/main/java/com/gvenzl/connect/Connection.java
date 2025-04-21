@@ -27,14 +27,12 @@ import net.schmizz.sshj.connection.ConnectionException;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.transport.TransportException;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
-import net.schmizz.sshj.userauth.UserAuthException;
 import net.schmizz.sshj.userauth.keyprovider.KeyProvider;
 import net.schmizz.sshj.userauth.password.PasswordUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -101,9 +99,14 @@ public class Connection {
         return osInfo;
     }
 
-    public void connect() throws UnknownHostException, UserAuthException, ConnectionException, IOException {
+    public void connect() throws IOException {
+        connect(0);
+    }
+
+    public void connect(int timeoutMilliSeconds) throws IOException {
         client = new SSHClient();
         client.addHostKeyVerifier(new PromiscuousVerifier());
+        client.setConnectTimeout(timeoutMilliSeconds);
         client.connect(hostName, Integer.parseInt(port));
 
         if (sshKey.isEmpty()) {
@@ -175,9 +178,5 @@ public class Connection {
         } catch (IOException e) {
             //Ignore
         }
-    }
-
-    public SSHClient getSSHClient() {
-        return client;
     }
 }

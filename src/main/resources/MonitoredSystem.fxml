@@ -23,6 +23,7 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.StackedAreaChart?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
@@ -30,19 +31,21 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="monSystemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.MonitoredSystem">
-       <Text layoutX="14.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System:" AnchorPane.leftAnchor="4.0" />
-       <Text fx:id="systemNameField" layoutX="52.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System name" AnchorPane.leftAnchor="52.0" />
-        <Text layoutX="170.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPUs:" AnchorPane.leftAnchor="170.0" />
-        <Text fx:id="systemCPUsField" layoutX="245.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cpus" AnchorPane.leftAnchor="210.0" />
-        <Text layoutX="340.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory (GBs):" AnchorPane.leftAnchor="300.0" />
-        <Text fx:id="systemMemoryField" layoutX="390.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory" AnchorPane.leftAnchor="390.0" />
-        <Text layoutX="4.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS:" AnchorPane.leftAnchor="4.0" />
-        <Text fx:id="osNameField" layoutX="118.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS name" AnchorPane.leftAnchor="30.0" />
-        <Text layoutX="340.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version:" AnchorPane.leftAnchor="300.0" />
-        <Text fx:id="osVersionField" layoutX="390.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS version" AnchorPane.leftAnchor="350.0" />
-        <Text layoutX="180.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Arch:" AnchorPane.leftAnchor="170.0" />
-        <Text fx:id="osArchField" layoutX="250.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS arch" AnchorPane.leftAnchor="210.0" />
-        <Text layoutX="14.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Run queue:" AnchorPane.leftAnchor="4.0" />
+    <Text layoutX="14.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System:" AnchorPane.leftAnchor="4.0" />
+    <Text fx:id="systemNameField" layoutX="52.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System name" AnchorPane.leftAnchor="52.0" />
+    <Text layoutX="170.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPUs:" AnchorPane.leftAnchor="170.0" />
+    <Text fx:id="systemCPUsField" layoutX="245.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cpus" AnchorPane.leftAnchor="210.0" />
+    <Text layoutX="340.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory (GBs):" AnchorPane.leftAnchor="300.0" />
+    <Text fx:id="systemMemoryField" layoutX="390.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory" AnchorPane.leftAnchor="390.0" />
+    <Text layoutX="4.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS:" AnchorPane.leftAnchor="4.0" />
+    <Text fx:id="osNameField" layoutX="118.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS name" AnchorPane.leftAnchor="30.0" />
+    <Text layoutX="340.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version:" AnchorPane.leftAnchor="300.0" />
+    <Text fx:id="osVersionField" layoutX="390.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS version" AnchorPane.leftAnchor="350.0" />
+    <Text layoutX="180.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Arch:" AnchorPane.leftAnchor="170.0" />
+    <Text fx:id="osArchField" layoutX="250.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OS arch" AnchorPane.leftAnchor="210.0" />
+    <Button layoutX="474.0" layoutY="7.0" mnemonicParsing="false" onAction="#removeSystem" prefHeight="3.0" prefWidth="3.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0" style="-fx-graphic: url('/icons/CloseButton.png'); -fx-background-color: transparent;"/>
+
+    <Text layoutX="14.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Run queue:" AnchorPane.leftAnchor="4.0" />
          <StackPane layoutX="83.0" layoutY="60.0" AnchorPane.leftAnchor="72.0">
            <Rectangle id="run-queue" fx:id="runQueueRunnableBar" arcHeight="5.0" arcWidth="5.0" height="15.0" layoutX="83.0" layoutY="60.0" strokeType="INSIDE" width="150.0" />
            <Text fx:id="runQueueRunnableValueField">

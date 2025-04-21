@@ -57,7 +57,7 @@ public class SysLogger {
                 instance = new SysLogger(Config.getInstance().getLogFilePath());
             }
             catch (IOException e) {
-                System.err.println("Cannot get logfile config: %s".formatted(e.getMessage()));
+                System.err.printf("Cannot get logfile config: %s%n", e.getMessage());
             }
         }
         return instance;

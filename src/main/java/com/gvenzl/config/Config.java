@@ -184,6 +184,8 @@ public class Config {
         return systems;
     }
 
+    public void removeSystem(String name) { systems.remove(name); }
+
     public void store() throws ParserConfigurationException, TransformerException, IOException {
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 

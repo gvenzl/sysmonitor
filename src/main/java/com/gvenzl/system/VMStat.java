@@ -79,7 +79,7 @@ public class VMStat {
     private boolean wa;
     private boolean st;
     private boolean gu;
-    private String pattern;
+    private final String pattern;
 
     public VMStat(String vmStatOutput) {
         for (String line : vmStatOutput.split("\n")) {
