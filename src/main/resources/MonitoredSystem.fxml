@@ -64,7 +64,7 @@
         </StackPane>
    <Text layoutX="250.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Swap MB/s:" AnchorPane.leftAnchor="250.0" />
    <StackPane layoutX="326.0" layoutY="60.0" AnchorPane.leftAnchor="326.0">
-         <Rectangle id="run-queue" fx:id="swapToDiskBar" arcHeight="5.0" arcWidth="5.0" height="15.0" layoutX="83.0" layoutY="60.0" strokeType="INSIDE" width="150.0" />
+         <Rectangle id="swap-write" fx:id="swapToDiskBar" arcHeight="5.0" arcWidth="5.0" height="15.0" layoutX="83.0" layoutY="60.0" strokeType="INSIDE" width="150.0" />
          <Text fx:id="swapToDiskField">
             <font>
                <Font size="8.0" />
@@ -72,7 +72,7 @@
          </Text>
    </StackPane>
    <StackPane layoutX="326.0" layoutY="82.0" AnchorPane.leftAnchor="326.0">
-         <Rectangle id="block-queue" fx:id="swapFromDiskBar" arcHeight="5.0" arcWidth="5.0" height="15.0" strokeType="INSIDE" width="150.0" />
+         <Rectangle id="swap-read" fx:id="swapFromDiskBar" arcHeight="5.0" arcWidth="5.0" height="15.0" strokeType="INSIDE" width="150.0" />
          <Text fx:id="swapFromDiskField">
             <font>
                <Font size="8.0" />

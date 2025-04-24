@@ -16,6 +16,19 @@
   -fx-stroke: black;
 }
 
+/* Swap read from disk --> red */
+#swap-read {
+  /*-fx-fill: #ff2121;*/
+  -fx-fill: rgba(255, 0, 0, 0.7);
+  -fx-stroke: black;
+}
+
+/* Swap write to disk --> blue */
+#swap-write {
+  -fx-fill: rgba(0, 0, 255, 0.7);
+  -fx-stroke: black;
+}
+
 /* CPU chart series symbols (need to match with the series at which position they have been added to the chart in the code). */
 #cpu-chart .series0.chart-area-symbol { -fx-background-color: rgba(255, 165, 0, 0.7), white; }
 #steal-cpu-series  .chart-series-area-fill { -fx-fill: rgba(255, 165, 0, 0.7); }
@@ -46,7 +59,7 @@
 #used-memory-series .chart-series-area-fill { -fx-fill: rgb(31, 255, 121, 0.7); }
 #used-memory-series .chart-series-area-line { -fx-stroke: rgb(31, 255, 121, 0.7); }
 
-/* Memory chart series symbols (need to match with the series at which position they have been added to the chart in the code). */
+/* Disk chart series symbols (need to match with the series at which position they have been added to the chart in the code). */
 #disk-chart .series0.chart-area-symbol { -fx-background-color: rgba(255, 0, 0, 0.7), white; }
 #disk-read-series .chart-series-area-fill { -fx-fill: rgba(255, 0, 0, 0.7); }
 #disk-read-series .chart-series-area-line { -fx-stroke: rgba(255, 0, 0, 0.7); }
