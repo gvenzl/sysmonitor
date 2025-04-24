@@ -33,20 +33,27 @@ public class SysLogger {
     private static SysLogger instance = null;
     private BufferedWriter logWriter = null;
 
-    private SysLogger (String logFilePath) {
+    private SysLogger (String logFilePath) throws IOException {
         setLogFilePath(logFilePath);
     }
 
-    public void setLogFilePath(String path) {
-        try {
+    public void setLogFilePath(String path) throws IOException {
+
+        // If empty path is provided, stop logging
+        if (null == path || path.isEmpty()) {
             if (null != logWriter) {
+                logWriter.flush();
+                logWriter.close();
+                logWriter = null;
+            }
+        }
+        else {
+            if (null != logWriter) {
+                logWriter.flush();
                 logWriter.close();
             }
             String logFile = path + File.separator + "SysMonitor.log";
             logWriter = new BufferedWriter(new FileWriter(logFile, true));
-        }
-        catch (IOException e) {
-            System.err.println(e.getMessage());
         }
     }
 
@@ -54,7 +61,13 @@ public class SysLogger {
     {
         if (instance == null) {
             try {
-                instance = new SysLogger(Config.getInstance().getLogFilePath());
+                String path = Config.getInstance().getLogFilePath();
+                try {
+                    instance = new SysLogger(path);
+                }
+                catch (IOException e) {
+                    System.err.printf("Cannot create log file: %s%n", e.getMessage());
+                }
             }
             catch (IOException e) {
                 System.err.printf("Cannot get logfile config: %s%n", e.getMessage());
@@ -64,23 +77,25 @@ public class SysLogger {
     }
 
     public synchronized void log(String output) {
-        try {
-            logWriter.write(output);
-            logWriter.newLine();
-        }
-        catch (IOException e) {
-            System.err.println(e.getMessage());
+        if (null != logWriter) {
+            try {
+                logWriter.write(output);
+                logWriter.newLine();
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
 
     public synchronized void error(String output) {
-        try {
-            logWriter.write("ERROR: ");
-            logWriter.write(output);
-            logWriter.newLine();
-        }
-        catch (IOException e) {
-            System.err.println(e.getMessage());
+        if (null != logWriter) {
+            try {
+                logWriter.write("ERROR: ");
+                logWriter.write(output);
+                logWriter.newLine();
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
 }

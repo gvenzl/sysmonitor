@@ -47,6 +47,7 @@ public class Config {
 
     private static final String CONFIG_DIR = System.getProperty("user.home") + File.separator + ".sysmonitor";
     private static final File   CONFIG_FILE = new File (CONFIG_DIR + File.separator + "config.xml");
+    // Statics for XML file tags and attributes
     private static final String ROOT = "configuration";
     private static final String PREFERENCES = "preferences";
     private static final String REFRESH = "refresh";
@@ -66,7 +67,7 @@ public class Config {
     private int refreshCycle = 1;
     private int reconnectRetries = 3;
     private int dataPoints = 30;
-    private String logFilePath = CONFIG_DIR;
+    private String logFilePath = null;
 
     private static Config instance = null;
 

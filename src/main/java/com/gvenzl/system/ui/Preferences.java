@@ -35,6 +35,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -86,29 +88,50 @@ public class Preferences {
         Node okButton = (Node) actionEvent.getSource();
         Scene scene = okButton.getScene();
 
-        try {
-            Config config = Config.getInstance();
-            if (validateInput()) {
-                storeConfig(config);
+        // Validate all inputs and only then do something
+        if (validateInput()) {
 
-                // Set new log path
-                SysLogger.getInstance().setLogFilePath(logFilePath.getText());
-                // Tell threads to reset their settings
+            boolean configSaved = false;
+
+            // Check whether configuration can be opened.
+            // If not, still try to set the log path
+            try {
+                Config config = Config.getInstance();
+                // Try to update/store the configuration threads
+                try {
+                    updateConfig(config);
+                    configSaved = true;
+                }
+                catch (IOException | ParserConfigurationException | TransformerException e) {
+                    new Alert(Alert.AlertType.ERROR, "Cannot update configuration due to :%s\n".formatted(e.getMessage()), ButtonType.OK).show();
+                }
+                // Try to update threads regardless.
                 try {
                     updateSystems();
                 }
                 catch (IOException e) {
-                    new Alert(Alert.AlertType.ERROR, "Cannot update connection settings due to :%s\nSettings have been saved, please restart SysMonitor.".formatted(e.getMessage()), ButtonType.OK).show();
+                    String errorMessage = "Cannot update connection settings due to :%s";
+                    if (configSaved) {
+                        errorMessage += "\nSettings have been saved, please restart SysMonitor.";
+                    }
+                    new Alert(Alert.AlertType.ERROR, errorMessage.formatted(e.getMessage()), ButtonType.OK).show();
                 }
             }
-        }
-        catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR, "Cannot retrieve configuration due to :%s".formatted(e.getMessage()), ButtonType.OK).show();
+            catch (IOException e) {
+                new Alert(Alert.AlertType.ERROR, "Cannot retrieve configuration due to :%s".formatted(e.getMessage()), ButtonType.OK).show();
+            }
+
+            // Set new log path (even if config save and thread update (independent) didn't succeed)
+            try {
+                SysLogger.getInstance().setLogFilePath(logFilePath.getText());
+            }
+            catch (IOException e) {
+                new Alert(Alert.AlertType.ERROR, "Cannot set log path due to: %s".formatted(e.getMessage()), ButtonType.OK).show();
+            }
         }
 
         Stage stage = (Stage) scene.getWindow();
         stage.close();
-
     }
 
     private boolean validateInput() {
@@ -128,19 +151,16 @@ public class Preferences {
             return false;
         }
 
-        if (null == logFilePath.getText() || logFilePath.getText().isEmpty()) {
-            new Alert(Alert.AlertType.ERROR, "Log File cannot be empty.", ButtonType.OK).show();
-            return false;
-        }
-
         return true;
     }
 
-    private void storeConfig(Config config) {
+    private void updateConfig(Config config)
+            throws ParserConfigurationException, TransformerException, IOException {
         config.setRefreshCycle(refreshCycle.getValue());
         config.setReconnectRetries(reconnectRetries.getValue());
         config.setDataPoints(dataPoints.getValue());
         config.setLogFilePath(logFilePath.getText());
+        config.store();
     }
 
     private void updateSystems() throws IOException {
@@ -158,5 +178,4 @@ public class Preferences {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
-
 }
