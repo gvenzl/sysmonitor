@@ -28,21 +28,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="278.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.Preferences">
+<AnchorPane prefHeight="249.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.Preferences">
    <Label layoutX="39.0" layoutY="38.0" text="Refresh (s):" AnchorPane.leftAnchor="40.0" />
-   <Spinner fx:id="refreshCycle" editable="true" layoutX="140.0" layoutY="34.0" prefHeight="26.0" prefWidth="63.0" AnchorPane.leftAnchor="150.0">
+   <Spinner fx:id="refreshCycle" editable="true" layoutX="140.0" layoutY="34.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="150.0">
       <valueFactory>
          <SpinnerValueFactory.IntegerSpinnerValueFactory max="86400" min="1" />
       </valueFactory>
    </Spinner>
    <Label layoutX="39.0" layoutY="70.0" text="Reconnect tries:" AnchorPane.leftAnchor="40.0" />
-   <Spinner fx:id="reconnectRetries" editable="true" layoutX="140.0" layoutY="66.0" prefWidth="63.0" AnchorPane.leftAnchor="150.0">
+   <Spinner fx:id="reconnectRetries" editable="true" layoutX="140.0" layoutY="66.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="150.0">
       <valueFactory>
          <SpinnerValueFactory.IntegerSpinnerValueFactory max="10" min="1" />
       </valueFactory>
    </Spinner>
    <Label layoutX="40.0" layoutY="103.0" text="Data Points:" AnchorPane.leftAnchor="40.0" />
-   <Spinner fx:id="dataPoints" editable="true" layoutX="140.0" layoutY="99.0" prefWidth="63.0" AnchorPane.leftAnchor="150.0">
+   <Spinner fx:id="dataPoints" editable="true" layoutX="140.0" layoutY="99.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="150.0">
       <valueFactory>
          <SpinnerValueFactory.IntegerSpinnerValueFactory max="1000" min="5" />
       </valueFactory>
