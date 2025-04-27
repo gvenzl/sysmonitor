@@ -213,11 +213,13 @@ public class NewSystem {
         return name.getText();
     }
 
+    /**
+     * Closes the window.
+     */
     @FXML
-    public void cancelDialog(ActionEvent actionEvent) {
+    public void cancelDialog() {
         this.abort = true;
-        Node cancelButton = (Node) actionEvent.getSource();
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        Stage stage = (Stage) name.getScene().getWindow();
         stage.close();
     }
 

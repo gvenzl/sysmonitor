@@ -39,6 +39,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -52,6 +54,9 @@ public class SysMonitor extends Application {
 
     private static final String VERSION = "1.0.0";
     public static final double MONITORED_SYSTEM_HEIGHT = 530;
+    private static Stage newSystemDialog = null;
+    private static Stage preferencesDialog = null;
+    private static Alert aboutDialog = null;
     @FXML
     public MenuItem stopRecordMenu;
 
@@ -84,7 +89,7 @@ public class SysMonitor extends Application {
 
         // If no systems are found in the config yet (brand-new invocation), open "Add system" window)
         if (Objects.requireNonNull(Config.getInstance()).getSystems().isEmpty()) {
-            addSystemWindow();
+            openAddSystemWindow();
         }
         // Systems are present, open them
         else {
@@ -120,21 +125,40 @@ public class SysMonitor extends Application {
     }
 
     @FXML
-    public void addSystemWindow() {
+    public void openAddSystemWindow() {
+
+        // Check if dialog is already open
+        if (null != newSystemDialog && newSystemDialog.isShowing()) {
+            // Bring the existing dialog to the foreground
+            newSystemDialog.requestFocus();
+            return;
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("NewSystem.fxml"));
             Parent root = loader.load();
             NewSystem system = loader.getController();
-            Stage newWindow = new Stage();
-            newWindow.setTitle("New System");
-            newWindow.setScene(new Scene(root));
-            newWindow.showAndWait();
+            newSystemDialog = new Stage();
+            newSystemDialog.setTitle("New System");
+            newSystemDialog.setScene(new Scene(root));
+
+            newSystemDialog.getScene().addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    system.cancelDialog();
+                }
+            });
+            // Clear the reference when the dialog is closed
+            newSystemDialog.setOnCloseRequest(event -> newSystemDialog = null);
+
+            newSystemDialog.showAndWait();
+
             // User may have clicked abort
             if (null != system && !system.isAbort() && !system.getName().isEmpty()) {
                 // Add system to root
                 try {
                     addMonitoredSystemNode(Config.getInstance().getSystem(system.getName()));
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     new Alert(Alert.AlertType.ERROR,
                             String.format("Cannot add system to window: %s", e.getMessage()))
                             .show();
@@ -150,7 +174,6 @@ public class SysMonitor extends Application {
 
     @Override
     public void stop() {
-
         try {
             for (Map.Entry<String, MonitoredSystem> sys : Systems.getInstance().getSystems().entrySet()) {
                 SysLogger.getInstance().log("SysMonitor: Sending stop signal to: %s".formatted(sys.getKey()));
@@ -170,20 +193,53 @@ public class SysMonitor extends Application {
     }
 
     public void openAbout() {
-        Alert aboutDialog = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
+        if (null != aboutDialog && aboutDialog.getDialogPane().getScene().getWindow().isShowing()) {
+            // Bring the existing dialog to the foreground
+            aboutDialog.getDialogPane().getScene().getWindow().requestFocus();
+            return;
+        }
+
+        aboutDialog = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
         aboutDialog.setTitle("SysMonitor");
         aboutDialog.setHeaderText("About");
         aboutDialog.setContentText("SysMonitor %s (c) Gerald Venzl %s".formatted(VERSION, (new SimpleDateFormat("yyyy").format(new Date()))));
+
+        // Close dialog on ESC key
+        aboutDialog.getDialogPane().setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                aboutDialog.close();
+            }
+        });
+
+        // Clear the reference when the dialog is closed
+        aboutDialog.setOnCloseRequest(event -> aboutDialog = null);
+
         aboutDialog.show();
     }
 
     @FXML
     public void openPreferencesWindow() {
+        // Check if dialog is already open
+        if (null != preferencesDialog && preferencesDialog.isShowing()) {
+            // Bring the existing dialog to the foreground
+            preferencesDialog.requestFocus();
+            return;
+        }
+
         try {
-            Stage newWindow = new Stage();
-            newWindow.setTitle("Preferences");
-            newWindow.setScene(new Scene(new FXMLLoader(getClass().getClassLoader().getResource("Preferences.fxml")).load()));
-            newWindow.show();
+            preferencesDialog = new Stage();
+            preferencesDialog.setTitle("Preferences");
+            preferencesDialog.setScene(new Scene(new FXMLLoader(getClass().getClassLoader().getResource("Preferences.fxml")).load()));
+
+            preferencesDialog.getScene().addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    preferencesDialog.close(); // Close the stage
+                }
+            });
+            // Clear the reference when the dialog is closed
+            preferencesDialog.setOnCloseRequest(event -> preferencesDialog = null);
+
+            preferencesDialog.show();
         }
         catch (IOException e) {
             new Alert(Alert.AlertType.ERROR,
@@ -236,7 +292,6 @@ public class SysMonitor extends Application {
     }
 
     public void stopRecord() {
-
         try {
             for (Map.Entry<String, MonitoredSystem> system : Systems.getInstance().getSystems().entrySet()) {
                 system.getValue().stopRecording();

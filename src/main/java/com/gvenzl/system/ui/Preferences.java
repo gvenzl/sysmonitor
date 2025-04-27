@@ -184,9 +184,8 @@ public class Preferences {
     }
 
     @FXML
-    public void cancelDialog(ActionEvent actionEvent) {
-        Node cancelButton = (Node) actionEvent.getSource();
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
+    public void cancelDialog() {
+        Stage stage = (Stage) logFilePath.getScene().getWindow();
         stage.close();
     }
 }

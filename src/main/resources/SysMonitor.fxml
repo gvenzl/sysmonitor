@@ -30,7 +30,7 @@
 <AnchorPane prefHeight="562.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.SysMonitor">
         <MenuBar prefHeight="28.0" prefWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <Menu mnemonicParsing="false" text="System">
-            <MenuItem id="newSystem" mnemonicParsing="false" onAction="#addSystemWindow" text="New" />
+            <MenuItem id="newSystem" mnemonicParsing="false" onAction="#openAddSystemWindow" text="New" />
             <MenuItem id="preferences" mnemonicParsing="false" onAction="#openPreferencesWindow" text="Preferences..." />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem id="quit" mnemonicParsing="false" onAction="#quitApp" text="Quit" />
