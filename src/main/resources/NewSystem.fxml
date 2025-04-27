@@ -26,7 +26,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="340.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.NewSystem">
+<AnchorPane prefHeight="340.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.NewSystem">
    <Label layoutX="48.0" layoutY="47.0" text="Name:" AnchorPane.leftAnchor="48.0" />
    <TextField fx:id="name" layoutX="136.0" layoutY="43.0" />
    <Label layoutX="48.0" layoutY="79.0" text="Host name:" AnchorPane.leftAnchor="48.0" />

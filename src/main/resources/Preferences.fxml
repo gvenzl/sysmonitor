@@ -28,29 +28,34 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="249.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.Preferences">
+<AnchorPane prefHeight="275.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.Preferences">
    <Label layoutX="39.0" layoutY="38.0" text="Refresh (s):" AnchorPane.leftAnchor="40.0" />
-   <Spinner fx:id="refreshCycle" editable="true" layoutX="140.0" layoutY="34.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="150.0">
+   <Spinner fx:id="refreshCycle" editable="true" layoutX="140.0" layoutY="34.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="160.0">
       <valueFactory>
          <SpinnerValueFactory.IntegerSpinnerValueFactory max="86400" min="1" />
       </valueFactory>
    </Spinner>
    <Label layoutX="39.0" layoutY="70.0" text="Reconnect tries:" AnchorPane.leftAnchor="40.0" />
-   <Spinner fx:id="reconnectRetries" editable="true" layoutX="140.0" layoutY="66.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="150.0">
+   <Spinner fx:id="reconnectRetries" editable="true" layoutX="140.0" layoutY="66.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="160.0">
       <valueFactory>
          <SpinnerValueFactory.IntegerSpinnerValueFactory max="10" min="1" />
       </valueFactory>
    </Spinner>
-   <Label layoutX="40.0" layoutY="103.0" text="Data Points:" AnchorPane.leftAnchor="40.0" />
-   <Spinner fx:id="dataPoints" editable="true" layoutX="140.0" layoutY="99.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="150.0">
+   <Label layoutX="40.0" layoutY="133.0" text="Data Points:" AnchorPane.leftAnchor="40.0" />
+   <Spinner fx:id="dataPoints" editable="true" layoutX="150.0" layoutY="129.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="160.0">
       <valueFactory>
          <SpinnerValueFactory.IntegerSpinnerValueFactory max="1000" min="5" />
       </valueFactory>
    </Spinner>
-   <Label layoutX="38.0" layoutY="136.0" text="Logfile:" />
-   <TextField fx:id="logFilePath" layoutX="148.0" layoutY="132.0" prefHeight="26.0" prefWidth="208.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="60.0" />
-   <Button layoutX="303.0" layoutY="132.0" mnemonicParsing="false" onAction="#openFileChooser" text="..." AnchorPane.rightAnchor="30.0" />
-   <Button defaultButton="true" layoutX="40.0" layoutY="190.0" mnemonicParsing="false" onAction="#validateSaveAndClose" prefHeight="33.0" prefWidth="62.0" text="OK" AnchorPane.leftAnchor="60.0" />
-   <Button layoutX="291.0" layoutY="190.0" mnemonicParsing="false" onAction="#cancelDialog" prefHeight="33.0" prefWidth="62.0" text="Cancel" AnchorPane.rightAnchor="60.0" />
-
+   <Spinner fx:id="connectTimeout" editable="true" layoutX="150.0" layoutY="98.0" prefHeight="26.0" prefWidth="80.0" AnchorPane.leftAnchor="160.0">
+      <valueFactory>
+         <SpinnerValueFactory.IntegerSpinnerValueFactory max="300" min="1" initialValue="5"/>
+      </valueFactory>
+   </Spinner>
+   <Label layoutX="38.0" layoutY="172.0" text="Logfile:" />
+   <TextField fx:id="logFilePath" layoutX="85.0" layoutY="168.0" prefHeight="26.0" prefWidth="208.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="60.0" />
+   <Button layoutX="299.5" layoutY="168.0" mnemonicParsing="false" onAction="#openFileChooser" text="..." AnchorPane.rightAnchor="30.0" />
+   <Button defaultButton="true" layoutX="40.0" layoutY="190.0" mnemonicParsing="false" onAction="#validateSaveAndClose" prefHeight="33.0" prefWidth="62.0" text="OK" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="60.0" />
+   <Button layoutX="291.0" layoutY="190.0" mnemonicParsing="false" onAction="#cancelDialog" prefHeight="33.0" prefWidth="62.0" text="Cancel" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="60.0" />
+   <Label layoutX="40.0" layoutY="102.0" text="Connect timeout (s):" />
 </AnchorPane>

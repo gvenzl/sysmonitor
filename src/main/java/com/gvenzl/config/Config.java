@@ -52,6 +52,7 @@ public class Config {
     private static final String PREFERENCES = "preferences";
     private static final String REFRESH = "refresh";
     private static final String RECONNECT = "reconnectRetries";
+    private static final String CONNECT_TIMEOUT = "connectTimeout";
     private static final String DATA_POINTS = "dataPoints";
     private static final String SYSTEMS_ROOT = "systems";
     private static final String SYSTEM = "system";
@@ -66,6 +67,7 @@ public class Config {
     private final TreeMap<String, Connection> systems = new TreeMap<>();
     private int refreshCycle = 1;
     private int reconnectRetries = 3;
+    private int connectTimeout = 5;
     private int dataPoints = 30;
     private String logFilePath = null;
 
@@ -100,6 +102,12 @@ public class Config {
         return this.reconnectRetries;
     }
 
+    public void setConnectTimeoutSeconds(int timeout) { this.connectTimeout = timeout; }
+
+    public int getConnectTimeoutSeconds() { return this.connectTimeout; }
+
+    public int getConnectTimeoutMilliSeconds() { return this.connectTimeout * 1000; }
+
     public int getDataPoints() {
         return this.dataPoints;
     }
@@ -129,11 +137,12 @@ public class Config {
                 doc.getDocumentElement().normalize();
 
                 // Preferences tag
-                Element prefs = (Element) doc.getElementsByTagName(PREFERENCES).item(0);
-                refreshCycle = Integer.parseInt(prefs.getAttribute(REFRESH));
-                reconnectRetries = Integer.parseInt(prefs.getAttribute(RECONNECT));
-                dataPoints = Integer.parseInt(prefs.getAttribute(DATA_POINTS));
-                logFilePath = prefs.getAttribute(LOG_FILE_PATH);
+                Element preferences = (Element) doc.getElementsByTagName(PREFERENCES).item(0);
+                refreshCycle = Integer.parseInt(preferences.getAttribute(REFRESH));
+                reconnectRetries = Integer.parseInt(preferences.getAttribute(RECONNECT));
+                connectTimeout = Integer.parseInt(preferences.getAttribute(CONNECT_TIMEOUT));
+                dataPoints = Integer.parseInt(preferences.getAttribute(DATA_POINTS));
+                logFilePath = preferences.getAttribute(LOG_FILE_PATH);
 
                 // Systems tag
                 Element systemsRoot = (Element) doc.getElementsByTagName(SYSTEMS_ROOT).item(0);
@@ -195,6 +204,7 @@ public class Config {
         Element preferences = doc.createElement(PREFERENCES);
         preferences.setAttribute(REFRESH, String.valueOf(refreshCycle));
         preferences.setAttribute(RECONNECT, String.valueOf(reconnectRetries));
+        preferences.setAttribute(CONNECT_TIMEOUT, String.valueOf(connectTimeout));
         preferences.setAttribute(DATA_POINTS, String.valueOf(dataPoints));
         preferences.setAttribute(LOG_FILE_PATH, logFilePath);
         root.appendChild(preferences);

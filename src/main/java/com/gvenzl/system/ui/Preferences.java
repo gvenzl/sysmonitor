@@ -49,6 +49,9 @@ public class Preferences {
     public Spinner<Integer> reconnectRetries;
     @FXML
     public Spinner<Integer> dataPoints;
+    @FXML
+    public Spinner<Integer> connectTimeout;
+    @FXML
     public TextField logFilePath;
 
     @FXML
@@ -58,6 +61,7 @@ public class Preferences {
             refreshCycle.getValueFactory().setValue(config.getRefreshCycle());
             reconnectRetries.getValueFactory().setValue(config.getReconnectRetries());
             dataPoints.getValueFactory().setValue(config.getDataPoints());
+            connectTimeout.getValueFactory().setValue(config.getConnectTimeoutSeconds());
             logFilePath.setText(Config.getInstance().getLogFilePath());
         }
         catch (IOException e) {
@@ -151,6 +155,11 @@ public class Preferences {
             return false;
         }
 
+        if (connectTimeout.getValue() < 1) {
+            new Alert(Alert.AlertType.ERROR, "Connect timeout cannot be lower than 1.", ButtonType.OK).show();
+            return false;
+        }
+
         return true;
     }
 
@@ -159,6 +168,7 @@ public class Preferences {
         config.setRefreshCycle(refreshCycle.getValue());
         config.setReconnectRetries(reconnectRetries.getValue());
         config.setDataPoints(dataPoints.getValue());
+        config.setConnectTimeoutSeconds(connectTimeout.getValue());
         config.setLogFilePath(logFilePath.getText());
         config.store();
     }
@@ -169,6 +179,7 @@ public class Preferences {
             sys.getValue().resetRefreshCycle(refreshCycle.getValue());
             sys.getValue().setReconnectRetries(reconnectRetries.getValue());
             sys.getValue().setDataPoints(dataPoints.getValue());
+            sys.getValue().setConnectTimeoutSeconds(connectTimeout.getValue());
         }
     }
 

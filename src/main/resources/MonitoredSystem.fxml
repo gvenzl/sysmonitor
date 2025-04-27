@@ -30,7 +30,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="monSystemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.MonitoredSystem">
+<AnchorPane fx:id="monSystemPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.MonitoredSystem">
     <Text layoutX="14.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System:" AnchorPane.leftAnchor="4.0" />
     <Text fx:id="systemNameField" layoutX="52.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System name" AnchorPane.leftAnchor="52.0" />
     <Text layoutX="170.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPUs:" AnchorPane.leftAnchor="170.0" />

@@ -54,6 +54,7 @@ public class MonitoredSystem extends Thread {
     private BufferedWriter recordFileWriter;
     private volatile boolean run = true;
     private Integer dataPoints = 30;
+    private Integer connectTimeoutMs = 5000;
     private Integer timeInterval = 1;
     private int maxRetries = 0;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -131,14 +132,37 @@ public class MonitoredSystem extends Thread {
         if (this.timeInterval != interval) {
             this.timeInterval = interval;
             // Get new reader with updated TIME interval
-            reader.close();
-            reader = null;
+            if (null != reader) {
+                reader.close();
+                reader = null;
+            }
         }
     }
 
     public void setDataPoints(int dataPoints) {
         if (this.dataPoints != dataPoints) {
             this.dataPoints = dataPoints;
+        }
+    }
+
+    /**
+     * Sets the connect timeout in milliseconds.
+     * @param timeoutMs connect timeout defined in milliseconds.
+     */
+    public void setConnectTimeoutMilliSeconds(int timeoutMs) {
+        if (this.connectTimeoutMs != timeoutMs) {
+            this.connectTimeoutMs = timeoutMs;
+        }
+    }
+
+    /**
+     * Sets the connect timeout in seconds.
+     * @param timeoutSec connect timeout defined in seconds.
+     */
+    public void setConnectTimeoutSeconds(int timeoutSec) {
+        int timeoutMs = timeoutSec * 1000;
+        if (this.connectTimeoutMs != timeoutMs) {
+            this.connectTimeoutMs = timeoutMs;
         }
     }
 
@@ -186,9 +210,10 @@ public class MonitoredSystem extends Thread {
 
         try {
             Config config = Config.getInstance();
-            this.dataPoints = config.getDataPoints();
-            this.timeInterval = config.getRefreshCycle();
-            maxRetries = config.getReconnectRetries();
+            setDataPoints(config.getDataPoints());
+            resetRefreshCycle(config.getRefreshCycle());
+            setConnectTimeoutMilliSeconds(config.getConnectTimeoutMilliSeconds());
+            setReconnectRetries(config.getReconnectRetries());
         }
         catch (IOException e) {
             // Ignore, if we cannot get it then let's just have no retries, aka 0 remains per initialization
@@ -197,13 +222,13 @@ public class MonitoredSystem extends Thread {
         int retries = 0;
 
         // if for whatever reason we get terminated, except when demanded, we reestablish the connection to N retries
-        while (run && retries<maxRetries) {
+        while (run && retries < maxRetries) {
             if (retries > 0) {
                 SysLogger.getInstance().log(this.name + ": Connection lost, reconnecting...");
             }
 
             try {
-                conn.connect();
+                conn.connect(this.connectTimeoutMs);
 
                 pattern = Pattern.compile(conn.getOsInfo().getVMStatPattern());
 
@@ -267,6 +292,12 @@ public class MonitoredSystem extends Thread {
                 SysLogger.getInstance().error(this.name + ": " + e.getMessage());
             }
             retries++;
+        }
+
+        if (retries == maxRetries) {
+            Platform.runLater(() -> new Alert(Alert.AlertType.WARNING,
+                    "Connection establishment to '%s' failed and exceeded maximum number of retires.".formatted(name),
+                    ButtonType.OK).show());
         }
     }
 

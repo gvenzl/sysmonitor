@@ -21,6 +21,7 @@
 
 package com.gvenzl.connect;
 
+import com.gvenzl.config.Config;
 import com.gvenzl.system.OSInfo;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.connection.ConnectionException;
@@ -156,7 +157,7 @@ public class Connection {
 
     public BufferedReader executeCommandAndRead(String command) throws IOException {
         if (!client.isConnected()) {
-            connect();
+            connect(Config.getInstance().getConnectTimeoutMilliSeconds());
         }
 
         Session session;

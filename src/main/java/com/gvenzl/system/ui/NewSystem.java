@@ -186,7 +186,7 @@ public class NewSystem {
 
         // Try to connect to the system
         try {
-            conn.connect(5000);
+            conn.connect(Config.getInstance().getConnectTimeoutMilliSeconds());
             conn.close();
         }
         catch (UnknownHostException e) {

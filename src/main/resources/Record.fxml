@@ -25,7 +25,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="219.0" prefWidth="369.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.Record">
+<AnchorPane prefHeight="219.0" prefWidth="369.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.system.ui.Record">
    <Label layoutX="48.0" layoutY="43.0" text="Path:" AnchorPane.leftAnchor="48.0" />
    <TextField fx:id="path" layoutX="136.0" layoutY="39.0" prefHeight="26.0" prefWidth="160.0" />
    <Button layoutX="307.0" layoutY="39.0" mnemonicParsing="false" onAction="#openDirectoryChooser" prefHeight="26.0" prefWidth="26.0" text="..." />
