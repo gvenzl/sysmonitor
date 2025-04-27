@@ -178,7 +178,7 @@ public class MonitoredSystem extends Thread {
 
     public void setConnection(Connection conn) {
         this.conn = conn;
-        name = conn.getName();
+        this.name = conn.getName();
     }
 
     @Override
@@ -199,7 +199,7 @@ public class MonitoredSystem extends Thread {
         // if for whatever reason we get terminated, except when demanded, we reestablish the connection to N retries
         while (run && retries<maxRetries) {
             if (retries > 0) {
-                SysLogger.getInstance().log("Connection lost, reconnecting...");
+                SysLogger.getInstance().log(this.name + ": Connection lost, reconnecting...");
             }
 
             try {
@@ -252,10 +252,10 @@ public class MonitoredSystem extends Thread {
                             recordLine(line);
                         }
                         catch (IOException e) {
-                            SysLogger.getInstance().error("Cannot record line due to: %s".formatted(e.getMessage()));
+                            SysLogger.getInstance().error(this.name + ": Cannot record line due to: %s".formatted(e.getMessage()));
                         }
                     }
-                    SysLogger.getInstance().log("Stop request, stopping thread.");
+                    SysLogger.getInstance().log(this.name + ": Stop request, stopping thread.");
                     reader.close();
                 }
                 finally {
@@ -264,7 +264,7 @@ public class MonitoredSystem extends Thread {
             }
             // Cannot communicate with the server, abort.
             catch (IOException e) {
-                SysLogger.getInstance().error(e.getMessage());
+                SysLogger.getInstance().error(this.name + ": " + e.getMessage());
             }
             retries++;
         }
@@ -419,7 +419,6 @@ public class MonitoredSystem extends Thread {
     }
 
     private DataPoint parseLine(String line) {
-        SysLogger.getInstance().log(Thread.currentThread().getName() + ": " + line);
         if (conn.getOsInfo().getOs().equalsIgnoreCase("Linux")) {
             return parseLineLinux(line);
         }

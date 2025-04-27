@@ -153,7 +153,7 @@ public class SysMonitor extends Application {
 
         try {
             for (Map.Entry<String, MonitoredSystem> sys : Systems.getInstance().getSystems().entrySet()) {
-                SysLogger.getInstance().log("Sending stop signal to: %s".formatted(sys.getKey()));
+                SysLogger.getInstance().log("SysMonitor: Sending stop signal to: %s".formatted(sys.getKey()));
                 sys.getValue().terminate();
                 sys.getValue().join(Config.getInstance().getRefreshCycle()+2);
             }
