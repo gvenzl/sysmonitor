@@ -22,41 +22,85 @@
 name: Build sysmonitor
 on: [push, pull_request]
 jobs:
-  build-mac:
+  build-mac-arm:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          java-package: 'jdk+fx'
-          distribution: 'temurin'
+      - name: Setup Java
+        run: |
+          brew install openjdk@21
+          sudo ln -sfn /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-21.jdk
 
       - name: Build
         run: mvn install
 
-  build-linux:
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Mac OSX arm64"
+          path: target/installer/SysMonitor-1.0.0.dmg
+  
+  build-mac-intel:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        run: |
+          brew install openjdk@21
+          sudo ln -sfn /usr/local/opt/openjdk@21/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-21.jdk
+
+      - name: Build
+        run: |
+          export PATH=/usr/local/opt/openjdk@21/bin:$PATH
+          export JAVA_HOME=/usr/local/opt/openjdk@21
+          mvn install
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Mac OSX x64"
+          path: target/installer/SysMonitor-1.0.0.dmg
+
+  build-linux-intel:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          java-package: 'jdk+fx'
-          distribution: 'temurin'
+      - name: Setup Java
+        run: sudo update-java-alternatives -s temurin-21-jdk-amd64
 
       - name: Build
-        run: mvn install
+        run: |
+          export JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
+          mvn install
 
-  build-windows:
-    runs-on: windows-latest
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Linux rpm x64"
+          path: target/installer/sysmonitor-1.0.0-1.x86_64.rpm
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Linux deb x64"
+          path: target/installer/sysmonitor_1.0.0_amd64.deb
+
+  build-windows-intel:
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          java-package: 'jdk+fx'
-          distribution: 'temurin'
+      - name: Install Java
+        run: winget install --accept-package-agreements --accept-source-agreements --exact --id Microsoft.OpenJDK.21
 
       - name: Build
-        run: mvn install
+        run: |
+          $env:JAVA_HOME="C:\Program Files\Microsoft\jdk-21.0.7.6-hotspot"
+          $env:Path="$env:JAVA_HOME\bin;$env:Path"
+          mvn install
+          dir target/installer
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Windows x86"
+          path: target/installer/SysMonitor-1.0.0.msi

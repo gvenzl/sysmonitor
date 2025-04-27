@@ -34,7 +34,7 @@ JAVA_VERSION=23
 MAIN_JAR="${PROJECT_NAME}-${PROJECT_VERSION}.jar"
 
 # Set desired installer type: "app-image", "rpm" or "deb".
-INSTALLER_TYPE=rpm
+INSTALLER_TYPE=${1:-"rpm"}
 
 echo "####################################################################"
 echo "Java home: $JAVA_HOME"
@@ -48,7 +48,6 @@ echo "####################################################################"
 # jar files into the input/libs folder.
 
 rm -rfd ./target/java-runtime/
-rm -rfd target/installer/
 
 mkdir -p target/installer/input/libs/
 
@@ -116,7 +115,7 @@ echo "creating installer of type $INSTALLER_TYPE"
 --main-jar "${MAIN_JAR}" \
 --java-options -Xmx1024m \
 --runtime-image target/java-runtime \
---icon src/main/resources/logos/favicon.ico \
+--icon src/main/resources/logos/SysMonitor.png \
 --app-version "${APP_VERSION}" \
 --vendor "Gerald Venzl" \
 --copyright "© 2025 Gerald Venzl"

@@ -1,25 +1,24 @@
-#
-# Since: March 2025
-# Author: gvenzl
-# Name: build-app-windows.sh
-# Description: Build JavaFX app for Windows
-#
-# Copyright 2025 Gerald Venzl
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
 @ECHO OFF
+rem 
+rem Since: March 2025
+rem Author: gvenzl
+rem Name: build-app-windows.sh
+rem Description: Build JavaFX app for Windows
+rem
+rem Copyright 2025 Gerald Venzl
+rem
+rem Licensed under the Apache License, Version 2.0 (the "License");
+rem you may not use this file except in compliance with the License.
+rem You may obtain a copy of the License at
+rem
+rem     http://www.apache.org/licenses/LICENSE-2.0
+rem
+rem Unless required by applicable law or agreed to in writing, software
+rem distributed under the License is distributed on an "AS IS" BASIS,
+rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+rem See the License for the specific language governing permissions and
+rem limitations under the License.
+rem
 
 rem ------ ENVIRONMENT --------------------------------------------------------
 rem The script depends on various environment variables to exist in order to
@@ -30,7 +29,7 @@ rem
 rem PROJECT_VERSION: version used in pom.xml, e.g. 1.0-SNAPSHOT
 rem APP_VERSION: the application version, e.g. 1.0.0, shown in "about" dialog
 
-set JAVA_VERSION=23
+set JAVA_VERSION=21
 set MAIN_JAR=%PROJECT_NAME%-%PROJECT_VERSION%.jar
 
 rem Set desired installer type: "app-image" "msi" "exe".
@@ -57,8 +56,9 @@ echo detecting required modules
   -q ^
   --multi-release %JAVA_VERSION% ^
   --ignore-missing-deps ^
+  --print-module-deps ^
   --class-path "target\installer\input\libs\*" ^
-  --print-module-deps target\classes\com\dlsc\jpackagefx\App.class > temp.txt
+    target/classes/com/gvenzl/SysMonitor.class > temp.txt
 
 set /p detected_modules=<temp.txt
 

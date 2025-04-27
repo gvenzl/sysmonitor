@@ -28,8 +28,8 @@
     <version>1.0.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <app.version>${project.version}</app.version>
         <exec.maven.plugin.version>1.6.0</exec.maven.plugin.version>
     </properties>
@@ -37,12 +37,12 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>23.0.2</version>
+            <version>21.0.7</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>23.0.2</version>
+            <version>21.0.7</version>
         </dependency>
         <dependency>
           <groupId>com.hierynomus</groupId>
@@ -57,7 +57,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <release>23</release>
+                    <release>21</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -109,12 +109,11 @@
                             <workingDirectory>${project.basedir}</workingDirectory>
                             <executable>./build-app-mac.sh</executable>
                             <environmentVariables>
-                                <JAVA_HOME>/Library/Java/JavaVirtualMachines/openjdk.jdk/Contents/Home</JAVA_HOME>
                                 <APP_VERSION>
                                     ${app.version}
                                 </APP_VERSION>
                                 <PROJECT_NAME>
-                                    ${project.name}
+                                    ${project.artifactId}
                                 </PROJECT_NAME>
                                 <PROJECT_VERSION>
                                     ${project.version}
@@ -138,25 +137,56 @@
                         <version>${exec.maven.plugin.version}</version>
                         <executions>
                             <execution>
-                                <id>Build Native Linux App</id>
+                                <id>Build Native Linux RPM file</id>
                                 <phase>install</phase>
                                 <goals>
                                     <goal>exec</goal>
                                 </goals>
+                                <configuration>
+                                  <workingDirectory>${project.basedir}</workingDirectory>
+                                    <executable>./build-app-linux.sh</executable>
+                                    <arguments>
+                                      <argument>rpm</argument>
+                                    </arguments>
+                                    <environmentVariables>
+                                      <APP_VERSION>
+                                        ${app.version}
+                                      </APP_VERSION>
+                                      <PROJECT_NAME>
+                                        ${project.artifactId}
+                                      </PROJECT_NAME>
+                                      <PROJECT_VERSION>
+                                        ${project.version}
+                                      </PROJECT_VERSION>
+                                  </environmentVariables>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>Build Native Linux DEB file</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                  <workingDirectory>${project.basedir}</workingDirectory>
+                                    <executable>./build-app-linux.sh</executable>
+                                    <arguments>
+                                      <argument>deb</argument>
+                                    </arguments>
+                                    <environmentVariables>
+                                      <APP_VERSION>
+                                        ${app.version}
+                                      </APP_VERSION>
+                                      <PROJECT_NAME>
+                                        ${project.artifactId}
+                                      </PROJECT_NAME>
+                                      <PROJECT_VERSION>
+                                        ${project.version}
+                                      </PROJECT_VERSION>
+                                  </environmentVariables>
+                                </configuration>
                             </execution>
                         </executions>
-                        <configuration>
-                            <workingDirectory>${project.basedir}</workingDirectory>
-                            <executable>./build-app-linux.sh</executable>
-                            <environmentVariables>
-                                <APP_VERSION>
-                                    ${app.version}
-                                </APP_VERSION>
-                                <PROJECT_VERSION>
-                                    ${project.version}
-                                </PROJECT_VERSION>
-                            </environmentVariables>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -189,6 +219,9 @@
                                 <APP_VERSION>
                                     ${app.version}
                                 </APP_VERSION>
+                                <PROJECT_NAME>
+                                    ${project.artifactId}
+                                </PROJECT_NAME>
                                 <PROJECT_VERSION>
                                     ${project.version}
                                 </PROJECT_VERSION>
