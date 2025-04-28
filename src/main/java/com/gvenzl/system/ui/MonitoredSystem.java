@@ -42,6 +42,8 @@ import javafx.stage.Stage;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,8 +52,9 @@ public class MonitoredSystem extends Thread {
 
     private static final String COMMAND = "vmstat -tn "; // Space at the end is needed
     private Connection conn;
-    BufferedReader reader;
+    private BufferedReader reader;
     private BufferedWriter recordFileWriter;
+    private String vmstatHeaders = "";
     private volatile boolean run = true;
     private Integer dataPoints = 30;
     private Integer connectTimeoutMs = 5000;
@@ -303,9 +306,8 @@ public class MonitoredSystem extends Thread {
 
     private void getNewReader() throws IOException {
         BufferedReader newReader = conn.executeCommandAndRead(COMMAND + this.timeInterval);
-        // Ignore the headers (first 2 rows)
-        newReader.readLine();
-        newReader.readLine();
+        // Preserve first two lines for recording file.
+        vmstatHeaders = newReader.readLine() + "\n" + newReader.readLine();
         reader = newReader;
     }
 
@@ -488,7 +490,7 @@ public class MonitoredSystem extends Thread {
         return dp;
     }
 
-    private String getReordPath() throws IOException {
+    private String getRecordPath() throws IOException {
         String path = Config.getInstance().getRecordDirPath();
         if (path.isEmpty()) {
             path = System.getProperty("user.home");
@@ -498,7 +500,7 @@ public class MonitoredSystem extends Thread {
 
     public void startRecording() throws IOException {
 
-        startRecording(getReordPath(), "");
+        startRecording(getRecordPath(), "");
     }
 
     public void startRecording(String path, String prefix) throws IOException {
@@ -513,8 +515,27 @@ public class MonitoredSystem extends Thread {
             fullFilePath = fullFilePath + prefix + fileName;
         }
 
+        boolean newRecording = !Files.exists(Path.of(fullFilePath));
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fullFilePath, true));
+
+        if (newRecording) {
+            writer.write("Name: %s    System: %s    CPUs: %s    Memory(GBs): %s\nOS: %s    Architecture: %s    OSVersion: %s\n"
+                    .formatted(
+                            this.conn.getName(),
+                            this.systemNameField.getText(),
+                            this.systemCPUsField.getText(),
+                            this.systemMemoryField.getText(),
+                            this.osNameField.getText(),
+                            this.osArchField.getText(),
+                            this.osVersionField.getText()
+                    )
+            );
+            writer.write(vmstatHeaders);
+            writer.write("\n");
+        }
         // Triggers recording once not null
-        recordFileWriter = new BufferedWriter(new FileWriter(fullFilePath, true));
+        recordFileWriter = writer;
     }
 
     public void stopRecording() throws IOException {

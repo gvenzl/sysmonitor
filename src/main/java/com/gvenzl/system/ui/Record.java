@@ -21,7 +21,6 @@
 
 package com.gvenzl.system.ui;
 
-import com.gvenzl.system.Systems;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -35,7 +34,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
 
 public class Record {
 
@@ -63,9 +61,9 @@ public class Record {
     }
 
     @FXML
-    public void cancelDialog(ActionEvent actionEvent) {
-        Node cancelButton = (Node) actionEvent.getSource();
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
+    public void cancelDialog() {
+        abort = true;
+        Stage stage = (Stage) prefix.getScene().getWindow();
         stage.close();
         abort = true;
     }
@@ -86,16 +84,6 @@ public class Record {
         if (Files.isDirectory(dirPath) && !Files.isWritable(dirPath)) {
             new Alert(Alert.AlertType.ERROR, String.format("Directory '%s' is not writable.", path.getText()), ButtonType.OK).show();
             return false;
-        }
-
-        for (Map.Entry<String, MonitoredSystem> entry : Systems.getInstance().getSystems().entrySet()) {
-            try {
-                entry.getValue().startRecording(path.getText(), prefix.getText());
-            }
-            catch (IOException e) {
-                new Alert(Alert.AlertType.ERROR, String.format("Cannot start recording: %s", e.getMessage()), ButtonType.OK).show();
-                return false;
-            }
         }
 
         Node okButton = (Node) actionEvent.getSource();

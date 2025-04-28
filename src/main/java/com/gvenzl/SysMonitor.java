@@ -56,6 +56,7 @@ public class SysMonitor extends Application {
     public static final double MONITORED_SYSTEM_HEIGHT = 530;
     private static Stage newSystemDialog = null;
     private static Stage preferencesDialog = null;
+    private static Stage recordDialog = null;
     private static Alert aboutDialog = null;
     @FXML
     public MenuItem stopRecordMenu;
@@ -261,14 +262,31 @@ public class SysMonitor extends Application {
     }
 
     public void recordWithPathAndPrefix() {
+        // Check if dialog is already open
+        if (null != recordDialog && recordDialog.isShowing()) {
+            // Bring the existing dialog to the foreground
+            recordDialog.requestFocus();
+            return;
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Record.fxml"));
             Parent root = loader.load();
             Record record = loader.getController();
-            Stage newWindow = new Stage();
-            newWindow.setTitle("Record");
-            newWindow.setScene(new Scene(root));
-            newWindow.showAndWait();
+            recordDialog = new Stage();
+            recordDialog.setTitle("Record");
+            recordDialog.setScene(new Scene(root));
+
+            recordDialog.getScene().addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    record.cancelDialog(); // Close the stage
+                }
+            });
+
+            // Clear the reference when the dialog is closed
+            recordDialog.setOnCloseRequest(event -> recordDialog = null);
+
+            recordDialog.showAndWait();
 
             // User may have clicked abort
             if (null != record && !record.isAbort()) {
