@@ -260,7 +260,7 @@ public class SysMonitor extends Application {
         }
     }
 
-    public void recordWithPrefix() {
+    public void recordWithPathAndPrefix() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Record.fxml"));
             Parent root = loader.load();

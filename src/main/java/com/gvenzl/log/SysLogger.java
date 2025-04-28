@@ -61,7 +61,7 @@ public class SysLogger {
     {
         if (instance == null) {
             try {
-                String path = Config.getInstance().getLogFilePath();
+                String path = Config.getInstance().getLogDirPath();
                 try {
                     instance = new SysLogger(path);
                 }

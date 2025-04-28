@@ -62,14 +62,16 @@ public class Config {
     private static final String PORT = "port";
     private static final String PASSWORD = "password";
     private static final String PRIVATE_KEY = "privateKey";
-    private static final String LOG_FILE_PATH = "logfile";
+    private static final String RECORD_DIR_PATH = "recordDir";
+    private static final String LOG_DIR_PATH = "logDir";
 
     private final TreeMap<String, Connection> systems = new TreeMap<>();
     private int refreshCycle = 1;
     private int reconnectRetries = 3;
     private int connectTimeout = 5;
     private int dataPoints = 30;
-    private String logFilePath = null;
+    private String recordDirPath = null;
+    private String logDirPath = null;
 
     private static Config instance = null;
 
@@ -116,12 +118,20 @@ public class Config {
         this.dataPoints = points;
     }
 
-    public void setLogFilePath(String path) {
-        logFilePath = path;
+    public void setRecordDirPath(String path) {
+        recordDirPath = path;
     }
 
-    public String getLogFilePath() {
-        return logFilePath;
+    public String getRecordDirPath() {
+        return recordDirPath;
+    }
+
+    public void setLogDirPath(String path) {
+        logDirPath = path;
+    }
+
+    public String getLogDirPath() {
+        return logDirPath;
     }
 
     private void readConfig() throws IOException {
@@ -142,7 +152,8 @@ public class Config {
                 reconnectRetries = Integer.parseInt(preferences.getAttribute(RECONNECT));
                 connectTimeout = Integer.parseInt(preferences.getAttribute(CONNECT_TIMEOUT));
                 dataPoints = Integer.parseInt(preferences.getAttribute(DATA_POINTS));
-                logFilePath = preferences.getAttribute(LOG_FILE_PATH);
+                recordDirPath = preferences.getAttribute(RECORD_DIR_PATH);
+                logDirPath = preferences.getAttribute(LOG_DIR_PATH);
 
                 // Systems tag
                 Element systemsRoot = (Element) doc.getElementsByTagName(SYSTEMS_ROOT).item(0);
@@ -206,7 +217,8 @@ public class Config {
         preferences.setAttribute(RECONNECT, String.valueOf(reconnectRetries));
         preferences.setAttribute(CONNECT_TIMEOUT, String.valueOf(connectTimeout));
         preferences.setAttribute(DATA_POINTS, String.valueOf(dataPoints));
-        preferences.setAttribute(LOG_FILE_PATH, logFilePath);
+        preferences.setAttribute(RECORD_DIR_PATH, recordDirPath);
+        preferences.setAttribute(LOG_DIR_PATH, logDirPath);
         root.appendChild(preferences);
 
         Element systemRoot = doc.createElement(SYSTEMS_ROOT);

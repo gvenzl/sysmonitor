@@ -488,8 +488,17 @@ public class MonitoredSystem extends Thread {
         return dp;
     }
 
+    private String getReordPath() throws IOException {
+        String path = Config.getInstance().getRecordDirPath();
+        if (path.isEmpty()) {
+            path = System.getProperty("user.home");
+        }
+        return path;
+    }
+
     public void startRecording() throws IOException {
-        startRecording(System.getProperty("user.home"), "");
+
+        startRecording(getReordPath(), "");
     }
 
     public void startRecording(String path, String prefix) throws IOException {

@@ -39,6 +39,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
 public class Preferences {
@@ -52,7 +54,9 @@ public class Preferences {
     @FXML
     public Spinner<Integer> connectTimeout;
     @FXML
-    public TextField logFilePath;
+    public TextField recordPath;
+    @FXML
+    public TextField logPath;
 
     @FXML
     public void initialize() {
@@ -62,7 +66,8 @@ public class Preferences {
             reconnectRetries.getValueFactory().setValue(config.getReconnectRetries());
             dataPoints.getValueFactory().setValue(config.getDataPoints());
             connectTimeout.getValueFactory().setValue(config.getConnectTimeoutSeconds());
-            logFilePath.setText(Config.getInstance().getLogFilePath());
+            recordPath.setText(Config.getInstance().getRecordDirPath());
+            logPath.setText(Config.getInstance().getLogDirPath());
         }
         catch (IOException e) {
             new Alert(Alert.AlertType.ERROR, "Cannot read configuration due to: %s".formatted(e.getMessage()), ButtonType.OK).show();
@@ -70,16 +75,33 @@ public class Preferences {
     }
 
     @FXML
-    public void openFileChooser(ActionEvent actionEvent) {
+    public void openDirChooserRecord(ActionEvent actionEvent) {
 
         DirectoryChooser directoryChooserChooser = new DirectoryChooser();
-        directoryChooserChooser.setTitle("Log File");
+        directoryChooserChooser.setTitle("Record directory");
         Node node = (Node) actionEvent.getSource();
-        File selectedFile = directoryChooserChooser.showDialog(node.getScene().getWindow());
+        File selectedDir = directoryChooserChooser.showDialog(node.getScene().getWindow());
 
-        if (selectedFile != null) {
+        if (null != selectedDir) {
             try {
-                logFilePath.setText(selectedFile.getCanonicalPath());
+                recordPath.setText(selectedDir.getCanonicalPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @FXML
+    public void openDirChooserLog(ActionEvent actionEvent) {
+
+        DirectoryChooser directoryChooserChooser = new DirectoryChooser();
+        directoryChooserChooser.setTitle("Log directory");
+        Node node = (Node) actionEvent.getSource();
+        File selectedDir = directoryChooserChooser.showDialog(node.getScene().getWindow());
+
+        if (null != selectedDir) {
+            try {
+                logPath.setText(selectedDir.getCanonicalPath());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -127,7 +149,7 @@ public class Preferences {
 
             // Set new log path (even if config save and thread update (independent) didn't succeed)
             try {
-                SysLogger.getInstance().setLogFilePath(logFilePath.getText());
+                SysLogger.getInstance().setLogFilePath(logPath.getText());
             }
             catch (IOException e) {
                 new Alert(Alert.AlertType.ERROR, "Cannot set log path due to: %s".formatted(e.getMessage()), ButtonType.OK).show();
@@ -160,6 +182,16 @@ public class Preferences {
             return false;
         }
 
+        if(! Files.isWritable(Path.of(recordPath.getText()))) {
+            new Alert(Alert.AlertType.ERROR, "Record directory is not writable.", ButtonType.OK).show();
+            return false;
+        }
+
+        if(! Files.isWritable(Path.of(logPath.getText()))) {
+            new Alert(Alert.AlertType.ERROR, "Log directory is not writable.", ButtonType.OK).show();
+            return false;
+        }
+
         return true;
     }
 
@@ -169,7 +201,8 @@ public class Preferences {
         config.setReconnectRetries(reconnectRetries.getValue());
         config.setDataPoints(dataPoints.getValue());
         config.setConnectTimeoutSeconds(connectTimeout.getValue());
-        config.setLogFilePath(logFilePath.getText());
+        config.setRecordDirPath(recordPath.getText());
+        config.setLogDirPath(logPath.getText());
         config.store();
     }
 
@@ -185,7 +218,7 @@ public class Preferences {
 
     @FXML
     public void cancelDialog() {
-        Stage stage = (Stage) logFilePath.getScene().getWindow();
+        Stage stage = (Stage) logPath.getScene().getWindow();
         stage.close();
     }
 }

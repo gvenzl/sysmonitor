@@ -33,6 +33,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
 public class Record {
@@ -51,7 +53,7 @@ public class Record {
         Node node = (Node) actionEvent.getSource();
         File selectedDirectory = directoryChooser.showDialog(node.getScene().getWindow());
 
-        if (selectedDirectory != null && selectedDirectory.isDirectory()) {
+        if (null != selectedDirectory && selectedDirectory.isDirectory()) {
             try {
                 path.setText(selectedDirectory.getCanonicalPath());
             } catch (IOException e) {
@@ -74,8 +76,15 @@ public class Record {
 
     public boolean validateRecordAndClose(ActionEvent actionEvent) {
 
-        if (!new File(path.getText()).isDirectory()) {
-            new Alert(Alert.AlertType.ERROR, String.format("Directory '%s' is not a directory", path.getText()), ButtonType.OK).show();
+        Path dirPath = Path.of(path.getText());
+        // If file is not a directory (shouldn't occur)
+        if (!Files.isDirectory(dirPath)) {
+            new Alert(Alert.AlertType.ERROR, String.format("Directory '%s' is not a directory.", path.getText()), ButtonType.OK).show();
+            return false;
+        }
+        // Directory is not writable
+        if (Files.isDirectory(dirPath) && !Files.isWritable(dirPath)) {
+            new Alert(Alert.AlertType.ERROR, String.format("Directory '%s' is not writable.", path.getText()), ButtonType.OK).show();
             return false;
         }
 
