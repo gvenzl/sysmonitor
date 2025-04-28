@@ -58,7 +58,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "Mac OSX x64"
+          name: "Mac OSX x86"
           path: target/installer/SysMonitor-1.0.0.dmg
 
   build-linux-intel:
@@ -76,13 +76,13 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "Linux rpm x64"
+          name: "Linux rpm x86"
           path: target/installer/sysmonitor-1.0.0-1.x86_64.rpm
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "Linux deb x64"
+          name: "Linux deb x86"
           path: target/installer/sysmonitor_1.0.0_amd64.deb
 
   build-windows-intel:
