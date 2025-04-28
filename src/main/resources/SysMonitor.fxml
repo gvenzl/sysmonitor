@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Since: March 2025
+  ~ Author: gvenzl
+  ~ Name: SysMonitor.fxml
+  ~ Description: The main view.
+  ~
+  ~ Copyright 2025 Gerald Venzl
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="562.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gvenzl.SysMonitor">
+        <MenuBar prefHeight="28.0" prefWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <Menu mnemonicParsing="false" text="System">
+            <MenuItem id="newSystem" mnemonicParsing="false" onAction="#openAddSystemWindow" text="New" />
+            <MenuItem id="preferences" mnemonicParsing="false" onAction="#openPreferencesWindow" text="Preferences..." />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem id="quit" mnemonicParsing="false" onAction="#quitApp" text="Quit" />
+          </Menu>
+          <Menu mnemonicParsing="false" text="Record">
+            <MenuItem id="record" mnemonicParsing="false" onAction="#record" text="Record" />
+            <MenuItem id="recordAs" mnemonicParsing="false" onAction="#recordWithPathAndPrefix" text="Record As..." />
+         <SeparatorMenuItem mnemonicParsing="false" />
+         <MenuItem fx:id="stopRecordMenu" disable="true" mnemonicParsing="false" onAction="#stopRecord" text="Stop" />
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <MenuItem id="about" mnemonicParsing="false" onAction="#openAbout" text="About" />
+          </Menu>
+        </MenuBar>
+      <ScrollPane fitToWidth="true" layoutY="28.0" prefHeight="372.0" prefViewportHeight="532.0" prefViewportWidth="640.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+            <AnchorPane id="mainPane" prefHeight="532.0" prefWidth="624.0" />
+      </ScrollPane>
+</AnchorPane>
