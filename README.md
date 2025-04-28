@@ -1,5 +1,6 @@
 # SysMonitor
 A graphical Linux system monitoring tool.
+<img width="1108" alt="SysMonitor" src="https://github.com/user-attachments/assets/b54c7bc5-b1a1-4a96-9d1d-04193a05a76d" />
 
 ## About
 
@@ -47,9 +48,9 @@ To open it, go into `Settings`-->`Privacy & Security` and under `Security` click
 
 Once running, add your Linux systems and start monitoring them.
 
-## LICENSE
+## License
 
-	Copyright 2020 Gerald Venzl
+	Copyright 2025 Gerald Venzl
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
