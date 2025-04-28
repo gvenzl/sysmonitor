@@ -35,8 +35,6 @@ SysMonitor provides a straightforward interface to view both dynamic and static 
   * **OS info:** Check the OS, version, and architecture for debugging or compatibility.
 * **Recording feature**: Record all performance metrics into log files.
 
-### Recording feature
-
 ## Installation
 
 Head over to [Releases](https://github.com/gvenzl/sysmonitor/releases) and download the latest version for your operating system.
