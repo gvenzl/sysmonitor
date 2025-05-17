@@ -39,7 +39,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "SysMonitor ${{ env.VERSION }} Mac OSX arm64"
+          name: "SysMonitor ${{ env.VERSION }} Mac OSX.arm64.dmg"
           path: target/installer/SysMonitor-${{ env.VERSION }}.dmg
   
   build-mac-intel:
@@ -60,7 +60,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "SysMonitor ${{ env.VERSION }} Mac OSX x86"
+          name: "SysMonitor ${{ env.VERSION }} Mac OSX.x86.dmg"
           path: target/installer/SysMonitor-${{ env.VERSION }}.dmg
 
   build-linux-intel:
@@ -78,13 +78,13 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "SysMonitor ${{ env.VERSION }} Linux rpm x86"
+          name: "SysMonitor ${{ env.VERSION }} Linux.x86_64.rpm"
           path: target/installer/sysmonitor-${{ env.VERSION }}-1.x86_64.rpm
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "SysMonitor ${{ env.VERSION }} Linux deb x86"
+          name: "SysMonitor ${{ env.VERSION }} Linux.amd64.deb"
           path: target/installer/sysmonitor_${{ env.VERSION }}_amd64.deb
 
   build-windows-intel:
@@ -104,5 +104,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "SysMonitor ${{ env.VERSION }} Windows x86"
+          name: "SysMonitor ${{ env.VERSION }} Windows.x86.msi"
           path: target/installer/SysMonitor-${{ env.VERSION }}.msi
