@@ -21,6 +21,8 @@
 
 name: Build sysmonitor
 on: [ push, pull_request ]
+env:
+  VERSION: "1.0.1"
 jobs:
   build-mac-arm:
     runs-on: macos-latest
@@ -37,8 +39,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "Mac OSX arm64"
-          path: target/installer/SysMonitor-1.0.1.dmg
+          name: "SysMonitor ${{ env.VERSION }} Mac OSX arm64"
+          path: target/installer/SysMonitor-${{ env.VERSION }}.dmg
   
   build-mac-intel:
     runs-on: macos-13
@@ -58,8 +60,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "Mac OSX x86"
-          path: target/installer/SysMonitor-1.0.1.dmg
+          name: "SysMonitor ${{ env.VERSION }} Mac OSX x86"
+          path: target/installer/SysMonitor-${{ env.VERSION }}.dmg
 
   build-linux-intel:
     runs-on: ubuntu-latest
@@ -76,14 +78,14 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "Linux rpm x86"
-          path: target/installer/sysmonitor-1.0.1-1.x86_64.rpm
+          name: "SysMonitor ${{ env.VERSION }} Linux rpm x86"
+          path: target/installer/sysmonitor-${{ env.VERSION }}-1.x86_64.rpm
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "Linux deb x86"
-          path: target/installer/sysmonitor_1.0.1_amd64.deb
+          name: "SysMonitor ${{ env.VERSION }} Linux deb x86"
+          path: target/installer/sysmonitor_${{ env.VERSION }}_amd64.deb
 
   build-windows-intel:
     runs-on: windows-2025
@@ -102,5 +104,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "Windows x86"
-          path: target/installer/SysMonitor-1.0.1.msi
+          name: "SysMonitor ${{ env.VERSION }} Windows x86"
+          path: target/installer/SysMonitor-${{ env.VERSION }}.msi
