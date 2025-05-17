@@ -20,7 +20,7 @@
 #
 
 name: Build sysmonitor
-on: [push, pull_request]
+on: [ push, pull_request ]
 jobs:
   build-mac-arm:
     runs-on: macos-latest
@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "Mac OSX arm64"
-          path: target/installer/SysMonitor-1.0.0.dmg
+          path: target/installer/SysMonitor-1.0.1.dmg
   
   build-mac-intel:
     runs-on: macos-13
@@ -59,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "Mac OSX x86"
-          path: target/installer/SysMonitor-1.0.0.dmg
+          path: target/installer/SysMonitor-1.0.1.dmg
 
   build-linux-intel:
     runs-on: ubuntu-latest
@@ -77,13 +77,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "Linux rpm x86"
-          path: target/installer/sysmonitor-1.0.0-1.x86_64.rpm
+          path: target/installer/sysmonitor-1.0.1-1.x86_64.rpm
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: "Linux deb x86"
-          path: target/installer/sysmonitor_1.0.0_amd64.deb
+          path: target/installer/sysmonitor_1.0.1_amd64.deb
 
   build-windows-intel:
     runs-on: windows-2025
@@ -103,4 +103,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "Windows x86"
-          path: target/installer/SysMonitor-1.0.0.msi
+          path: target/installer/SysMonitor-1.0.1.msi
