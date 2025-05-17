@@ -182,12 +182,16 @@ public class Preferences {
             return false;
         }
 
-        if(! Files.isWritable(Path.of(recordPath.getText()))) {
+        // If the path is not empty, check whether the path is writeable
+        if ( !recordPath.getText().isEmpty() &&
+                !Files.isWritable(Path.of(recordPath.getText()))) {
             new Alert(Alert.AlertType.ERROR, "Record directory is not writable.", ButtonType.OK).show();
             return false;
         }
 
-        if(! Files.isWritable(Path.of(logPath.getText()))) {
+        // If the path is not empty, check whether the path is writable
+        if ( !logPath.getText().isEmpty() &&
+                !Files.isWritable(Path.of(logPath.getText()))) {
             new Alert(Alert.AlertType.ERROR, "Log directory is not writable.", ButtonType.OK).show();
             return false;
         }

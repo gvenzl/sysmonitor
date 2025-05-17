@@ -52,7 +52,7 @@ import java.util.Objects;
 
 public class SysMonitor extends Application {
 
-    private static final String VERSION = "1.0.0";
+    private static final String VERSION = "1.0.1";
     public static final double MONITORED_SYSTEM_HEIGHT = 530;
     private static Stage newSystemDialog = null;
     private static Stage preferencesDialog = null;
