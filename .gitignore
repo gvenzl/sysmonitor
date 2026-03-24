@@ -105,3 +105,12 @@ fabric.properties
 
 .idea/
 target/
+
+node_modules/
+dist/
+dist-electron/
+out-electron/
+
+# Local agent/workflow artifacts
+.sisyphus/
+tmp/

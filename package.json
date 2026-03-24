@@ -1,0 +1,41 @@
+{
+  "name": "sysmonitor",
+  "version": "2.0.0",
+  "description": "A graphical Linux system monitoring tool.",
+  "main": "out/main/main.js",
+  "author": "Gerald Venzl",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "vitest run && electron-vite build",
+    "package": "npm run build && electron-builder --publish never",
+    "package:dir": "npm run build && electron-builder --dir",
+    "test": "vitest run",
+    "test:packaged-smoke": "./scripts/packaged-smoke-check.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "electron": "^37.2.0",
+    "electron-builder": "^26.0.12",
+    "electron-vite": "^3.1.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "build": {
+    "appId": "com.gvenzl.sysmonitor",
+    "productName": "SysMonitor",
+    "mac": {
+      "icon": "assets/icons/SysMonitor.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "linux": {
+      "icon": "assets/icons/SysMonitor.png"
+    },
+    "win": {
+      "icon": "assets/icons/favicon.ico"
+    }
+  }
+}
