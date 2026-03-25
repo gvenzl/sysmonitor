@@ -12,6 +12,6 @@ module.exports = {
     icon: 'assets/icons/SysMonitor.png'
   },
   win: {
-    icon: 'assets/icons/favicon.ico'
+    icon: 'assets/icons/SysMonitor.png'
   }
 };
