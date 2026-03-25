@@ -32,7 +32,7 @@ jobs:
       - name: Test and build
         run: npm run build
       - name: Package
-        run: npx electron-builder --publish never
+        run: npx electron-builder --config electron-builder.config.js --publish never
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -52,7 +52,7 @@ jobs:
       - name: Test and build
         run: npm run build
       - name: Package
-        run: npx electron-builder --publish never
+        run: npx electron-builder --config electron-builder.config.js --publish never
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -72,7 +72,7 @@ jobs:
       - name: Test and build
         run: npm run build
       - name: Package
-        run: npx electron-builder --publish never
+        run: npx electron-builder --config electron-builder.config.js --publish never
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
