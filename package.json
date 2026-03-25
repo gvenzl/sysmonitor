@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "electron-vite dev",
     "build": "vitest run && electron-vite build",
-    "package": "npm run build && electron-builder --publish never",
-    "package:dir": "npm run build && electron-builder --dir",
+    "package": "npm run build && electron-builder --config electron-builder.config.js --publish never",
+    "package:dir": "npm run build && electron-builder --config electron-builder.config.js --dir",
     "test": "vitest run",
     "test:packaged-smoke": "./scripts/packaged-smoke-check.sh"
   },
@@ -20,22 +20,5 @@
     "electron-vite": "^3.1.0",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
-  },
-  "build": {
-    "appId": "com.gvenzl.sysmonitor",
-    "productName": "SysMonitor",
-    "mac": {
-      "icon": "assets/icons/SysMonitor.icns",
-      "target": [
-        "dmg",
-        "zip"
-      ]
-    },
-    "linux": {
-      "icon": "assets/icons/SysMonitor.png"
-    },
-    "win": {
-      "icon": "assets/icons/favicon.ico"
-    }
   }
 }

@@ -1,4 +1,5 @@
 import os from 'node:os';
+import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
@@ -10,7 +11,7 @@ describe('recordingService', () => {
       basePath: '/tmp/records',
       prefix: '',
       systemName: 'Database'
-    })).toBe('/tmp/records/Database.log');
+    })).toBe(path.join('/tmp/records', 'Database.log'));
   });
 
   it('falls back to the user home directory when no record path is configured', () => {
@@ -18,7 +19,7 @@ describe('recordingService', () => {
       basePath: '',
       prefix: '',
       systemName: 'Database'
-    })).toBe(`${os.homedir()}/Database.log`);
+    })).toBe(path.join(os.homedir(), 'Database.log'));
   });
 
   it('prepends the prefix when provided', () => {
@@ -26,7 +27,7 @@ describe('recordingService', () => {
       basePath: '/tmp/records',
       prefix: 'prod-',
       systemName: 'Database'
-    })).toBe('/tmp/records/prod-Database.log');
+    })).toBe(path.join('/tmp/records', 'prod-Database.log'));
   });
 
   it('builds the Java-compatible recording header', () => {
