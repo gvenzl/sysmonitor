@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import { describe, expect, it } from 'vitest';
 
 import { getLogFilePath, normalizeLogDirectory, renderErrorLogLine, renderLogLine } from '../../../src/core/logging/sysLogger';
@@ -9,7 +11,7 @@ describe('sysLogger', () => {
   });
 
   it('uses SysMonitor.log inside the configured directory', () => {
-    expect(getLogFilePath('/tmp/sysmonitor/logs')).toBe('/tmp/sysmonitor/logs/SysMonitor.log');
+    expect(getLogFilePath('/tmp/sysmonitor/logs')).toBe(path.join('/tmp/sysmonitor/logs', 'SysMonitor.log'));
   });
 
   it('formats normal log lines without a prefix', () => {
