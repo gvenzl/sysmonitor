@@ -32,7 +32,7 @@ jobs:
       - name: Test and build
         run: npm run build
       - name: Package
-        run: npx electron-builder --config electron-builder.config.js --publish never
+        run: npx electron-builder --config electron-builder.config.js --mac --arm64 --x64 --publish never
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
