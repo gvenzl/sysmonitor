@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sysmonitor-macos
-          path: dist/
+          path: dist/*.dmg
 
   build-linux:
     runs-on: ubuntu-latest
