@@ -1,9 +1,10 @@
+import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { createDefaultConfig, getConfigDirectory, getConfigFilePath, normalizeConfig, readConfigFromDisk, writeConfigToDisk } from '../../../src/core/config/configRepository';
+import { createDefaultConfig, getConfigDirectory, getConfigFilePath, normalizeConfig, obfuscatePassword, readConfigFromDisk, writeConfigToDisk } from '../../../src/core/config/configRepository';
 
 describe('configRepository', () => {
   it('uses config.json in the sysmonitor home directory', () => {
@@ -43,7 +44,7 @@ describe('configRepository', () => {
           hostName: 'db.example.com',
           port: '22',
           userName: 'oracle',
-          passWord: 'secret',
+          passWord: obfuscatePassword('secret'),
           sshKey: ''
         }
       ]
@@ -63,11 +64,30 @@ describe('configRepository', () => {
           hostName: 'db.example.com',
           port: '22',
           userName: 'oracle',
+          passWord: obfuscatePassword('secret'),
+          sshKey: ''
+        }
+      ]
+    });
+  });
+
+
+  it('obfuscates system passwords during normalization', () => {
+    const normalized = normalizeConfig({
+      systems: [
+        {
+          name: 'Database',
+          hostName: 'db.example.com',
+          port: '22',
+          userName: 'oracle',
           passWord: 'secret',
           sshKey: ''
         }
       ]
     });
+
+    expect(normalized.systems[0]?.passWord).toBe(obfuscatePassword('secret'));
+    expect(normalized.systems[0]?.passWord).not.toBe('secret');
   });
 
   it('reads a missing JSON config as defaults', async () => {
@@ -102,6 +122,19 @@ describe('configRepository', () => {
 
     await writeConfigToDisk(config, filePath);
 
-    await expect(readConfigFromDisk(filePath)).resolves.toEqual(config);
+    const persisted = await fs.readFile(filePath, 'utf8');
+
+    expect(persisted).not.toContain('\"passWord\": \"secret\"');
+    expect(persisted).toContain(obfuscatePassword('secret'));
+
+    await expect(readConfigFromDisk(filePath)).resolves.toEqual({
+      ...config,
+      systems: [
+        {
+          ...config.systems[0],
+          passWord: obfuscatePassword('secret')
+        }
+      ]
+    });
   });
 });

@@ -4,12 +4,26 @@ import path from 'node:path';
 
 import { DEFAULT_CONFIG_PREFERENCES, type SysMonitorConfig } from './configSchema';
 
+const OBFUSCATED_PASSWORD_PREFIX = 'obf:';
+
 export function getConfigDirectory(): string {
     return path.join(os.homedir(), '.sysmonitor');
 }
 
 export function getConfigFilePath(): string {
     return path.join(getConfigDirectory(), 'config.json');
+}
+
+export function obfuscatePassword(password: string): string {
+    if (password === '') {
+        return '';
+    }
+
+    if (password.startsWith(OBFUSCATED_PASSWORD_PREFIX)) {
+        return password;
+    }
+
+    return `${OBFUSCATED_PASSWORD_PREFIX}${Buffer.from(password, 'utf8').toString('base64')}`;
 }
 
 export function createDefaultConfig(): SysMonitorConfig {
@@ -31,7 +45,7 @@ export function normalizeConfig(raw: Partial<SysMonitorConfig> | undefined): Sys
             hostName: system.hostName ?? '',
             port: system.port ?? '22',
             userName: system.userName ?? '',
-            passWord: system.passWord ?? '',
+            passWord: obfuscatePassword(system.passWord ?? ''),
             sshKey: system.sshKey ?? ''
         }))
     };
@@ -57,5 +71,6 @@ export async function readConfigFromDisk(filePath: string = getConfigFilePath())
 
 export async function writeConfigToDisk(config: SysMonitorConfig, filePath: string = getConfigFilePath()): Promise<void> {
     await fs.mkdir(path.dirname(filePath), { recursive: true });
-    await fs.writeFile(filePath, `${JSON.stringify(normalizeConfig(config), null, 2)}\n`, 'utf8');
+    await fs.writeFile(filePath, `${JSON.stringify(normalizeConfig(config), null, 2)}
+`, 'utf8');
 }
